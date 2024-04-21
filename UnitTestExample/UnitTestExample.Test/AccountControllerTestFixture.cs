@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 namespace UnitTestExample.Test
 {
     using NUnit.Framework;
+    using NUnit.Framework.Legacy;
     using UnitTestExample.Controllers;
 
     public class AccountControllerTestFixture
@@ -26,7 +27,7 @@ namespace UnitTestExample.Test
             var actualResult = accountController.ValidateEmail(email);
 
             // Assert
-            //Assert.AreEqual(expectedResult, actualResult);
+            ClassicAssert.AreEqual(expectedResult, actualResult);
         }
     }
 }
