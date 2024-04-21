@@ -26,7 +26,7 @@ namespace UnitTestExample.Test
             var actualResult = accountController.ValidateEmail(email);
 
             // Assert
-            
+            //Assert.AreEqual(expectedResult, actualResult);
         }
     }
 }
