@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.33516.290
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Raktar", "Raktar\Raktar.csproj", "{03D97A60-4E47-4AD2-A02E-06975D338C7C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{03D97A60-4E47-4AD2-A02E-06975D338C7C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{03D97A60-4E47-4AD2-A02E-06975D338C7C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{03D97A60-4E47-4AD2-A02E-06975D338C7C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{03D97A60-4E47-4AD2-A02E-06975D338C7C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {ACEFB1D7-AD8A-4AF0-8D62-4D87563A5C85}
+	EndGlobalSection
+EndGlobal
