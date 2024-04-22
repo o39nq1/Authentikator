@@ -15,11 +15,11 @@ namespace Raktarkeszlet
     public partial class Form1 : Form
     {
         List<Termek> termeklista = new List<Termek>();
+        string key = "1-99771c47-c036-4a99-aaf9-79ea0f752b3e";
+        string url = "http://20.234.113.211:8108/";
         public Form1()
         {
             InitializeComponent();
-            string key = "1-99771c47-c036-4a99-aaf9-79ea0f752b3e";
-            string url = "http://20.234.113.211:8108/";
 
             var proxy = new Api(url, key);
             var termekek = proxy.ProductsFindAll();
@@ -67,6 +67,31 @@ namespace Raktarkeszlet
         private void listBox1_SelectedIndexChanged_1(object sender, EventArgs e)
         {
             Mennyiseg();
+        }
+
+        private void buttonplus_Click(object sender, EventArgs e)
+        {
+            int keszlet = int.Parse(textBoxmennyiseg.Text);
+            keszlet = keszlet + 1;
+            textBoxmennyiseg.Text = keszlet.ToString();
+        }
+
+        private void buttonminus_Click(object sender, EventArgs e)
+        {
+            int keszlet = int.Parse(textBoxmennyiseg.Text);
+            keszlet = keszlet - 1;
+            textBoxmennyiseg.Text = keszlet.ToString();
+        }
+
+        private void buttonsave_Click(object sender, EventArgs e)
+        {
+            var proxy = new Api("http://20.234.113.211:8108/", "1-99771c47-c036-4a99-aaf9-79ea0f752b3e");
+            int index = listBox1.SelectedIndex;
+            var termek = termeklista[index];
+            var inventory = proxy.ProductInventoryFind(termek.inventory_id).Content;
+            inventory.QuantityOnHand = int.Parse(textBoxmennyiseg.Text);
+            proxy.ProductInventoryUpdate(inventory);
+            
         }
     }
 }

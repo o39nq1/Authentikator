@@ -63,6 +63,7 @@
             this.buttonminus.TabIndex = 2;
             this.buttonminus.Text = "-";
             this.buttonminus.UseVisualStyleBackColor = true;
+            this.buttonminus.Click += new System.EventHandler(this.buttonminus_Click);
             // 
             // buttonplus
             // 
@@ -72,6 +73,7 @@
             this.buttonplus.TabIndex = 3;
             this.buttonplus.Text = "+";
             this.buttonplus.UseVisualStyleBackColor = true;
+            this.buttonplus.Click += new System.EventHandler(this.buttonplus_Click);
             // 
             // textBoxmennyiseg
             // 
@@ -97,6 +99,7 @@
             this.buttonsave.TabIndex = 6;
             this.buttonsave.Text = "mentés";
             this.buttonsave.UseVisualStyleBackColor = true;
+            this.buttonsave.Click += new System.EventHandler(this.buttonsave_Click);
             // 
             // Form1
             // 
