@@ -18,6 +18,8 @@ namespace Raktarkeszlet
         string key = "1-99771c47-c036-4a99-aaf9-79ea0f752b3e";
         string url = "http://20.234.113.211:8108/";
 
+        int valtozott = 0;
+
         public Form1()
         {
             InitializeComponent();
@@ -43,6 +45,7 @@ namespace Raktarkeszlet
         {
             int kivalasztott = listBox1.SelectedIndex;
             textBoxmennyiseg.Text = termeklista[kivalasztott].keszlet.ToString();
+            textBoxmennyiseg.ReadOnly = true;
         }
 
         private void Szures()
@@ -68,6 +71,7 @@ namespace Raktarkeszlet
         private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
             Mennyiseg();
+            valtozott = 0;
         }
 
         private void buttonplus_Click(object sender, EventArgs e)
@@ -75,6 +79,7 @@ namespace Raktarkeszlet
             int keszlet = int.Parse(textBoxmennyiseg.Text);
             keszlet = keszlet + 1;
             textBoxmennyiseg.Text = keszlet.ToString();
+            valtozott = valtozott + 1;
         }
 
         private void buttonminus_Click(object sender, EventArgs e)
@@ -82,16 +87,26 @@ namespace Raktarkeszlet
             int keszlet = int.Parse(textBoxmennyiseg.Text);
             keszlet = keszlet - 1;
             textBoxmennyiseg.Text = keszlet.ToString();
+            valtozott = valtozott - 1;
         }
 
         private void buttonsave_Click(object sender, EventArgs e)
         {
-
+            var proxy = new Api(url, key);
+            int index = listBox1.SelectedIndex;
+            var termek = termeklista[index];
+            var inventory = proxy.ProductInventoryFind(termek.inventory_id).Content;
+            inventory.QuantityOnHand = int.Parse(textBoxmennyiseg.Text);
+            proxy.ProductInventoryUpdate(inventory);
+            Mennyiseg();
+            string uzenet1 = "A "+termek.nev+" termék rakárkészlete változott: "+valtozott.ToString();
+            MessageBox.Show(uzenet1);
+            Close();
         }
 
         private void buttonmegse_Click(object sender, EventArgs e)
         {
-
+            Close();
         }
     }
 }
