@@ -70,10 +70,17 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ProductControllerTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Raktarkeszlet\Raktarkeszlet.csproj">
+      <Project>{d4b37c86-8400-4890-9a49-04368998a77d}</Project>
+      <Name>Raktarkeszlet</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
