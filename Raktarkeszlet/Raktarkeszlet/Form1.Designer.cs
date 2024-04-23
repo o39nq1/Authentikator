@@ -46,6 +46,7 @@
             this.listBox1.Name = "listBox1";
             this.listBox1.Size = new System.Drawing.Size(583, 604);
             this.listBox1.TabIndex = 0;
+            this.listBox1.SelectedIndexChanged += new System.EventHandler(this.listBox1_SelectedIndexChanged);
             // 
             // textBox1
             // 
@@ -53,6 +54,7 @@
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(565, 31);
             this.textBox1.TabIndex = 1;
+            this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             // 
             // textBoxmennyiseg
             // 
@@ -69,6 +71,7 @@
             this.buttonplus.TabIndex = 3;
             this.buttonplus.Text = "+";
             this.buttonplus.UseVisualStyleBackColor = true;
+            this.buttonplus.Click += new System.EventHandler(this.buttonplus_Click);
             // 
             // buttonminus
             // 
@@ -78,6 +81,7 @@
             this.buttonminus.TabIndex = 4;
             this.buttonminus.Text = "-";
             this.buttonminus.UseVisualStyleBackColor = true;
+            this.buttonminus.Click += new System.EventHandler(this.buttonminus_Click);
             // 
             // label1
             // 
@@ -96,6 +100,7 @@
             this.buttonsave.TabIndex = 6;
             this.buttonsave.Text = "Mentés";
             this.buttonsave.UseVisualStyleBackColor = true;
+            this.buttonsave.Click += new System.EventHandler(this.buttonsave_Click);
             // 
             // buttonmegse
             // 
@@ -105,6 +110,7 @@
             this.buttonmegse.TabIndex = 7;
             this.buttonmegse.Text = "Mégse";
             this.buttonmegse.UseVisualStyleBackColor = true;
+            this.buttonmegse.Click += new System.EventHandler(this.buttonmegse_Click);
             // 
             // Form1
             // 
