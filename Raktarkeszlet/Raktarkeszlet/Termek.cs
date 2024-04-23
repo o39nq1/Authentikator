@@ -8,9 +8,9 @@ namespace Raktarkeszlet
 {
     public class Termek
     {
-        public int id;
-        public string nev;
-        public int keszlet;
-        public string inventory_id;
+        public int id { get; set; }
+        public string nev { get; set; }
+        public int keszlet { get; set; }
+        public string inventory_id { get; set; }
     }
 }

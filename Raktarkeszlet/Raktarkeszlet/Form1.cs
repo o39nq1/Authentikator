@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Runtime.Remoting.Contexts;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -43,24 +44,28 @@ namespace Raktarkeszlet
 
         private void Mennyiseg()
         {
-            int kivalasztott = listBox1.SelectedIndex;
-            textBoxmennyiseg.Text = termeklista[kivalasztott].keszlet.ToString();
+            var termek = (Termek)listBox1.SelectedItem;
+            textBoxmennyiseg.Text = termek.keszlet.ToString();
             textBoxmennyiseg.ReadOnly = true;
         }
 
         private void Szures()
         {
-            List<string> adatok = new List<string>();
-            for (int i = 0; i < termeklista.Count; i++)
-            {
-                if (termeklista[i].nev.Contains(textBox1.Text))
-                {
-                    adatok.Add(termeklista[i].nev);
-                }
-            }
-
-            listBox1.DataSource = adatok;
+            //List<Termek> adatok = new List<Termek>();
+            //for (int i = 0; i < termeklista.Count; i++)
+            //{
+            //    if (termeklista[i].nev.Contains(textBox1.Text))
+            //    {
+            //        adatok.Add(termeklista[i]);
+            //    }
+            //}
+            var termekek = from x in termeklista
+                         where x.nev.Contains(textBox1.Text)
+                         select x;
+            listBox1.DataSource = termekek.ToList();
             listBox1.DisplayMember = "nev";
+            listBox1.ValueMember = "id";
+            Mennyiseg();
         }
 
         private void textBox1_TextChanged(object sender, EventArgs e)
@@ -93,8 +98,7 @@ namespace Raktarkeszlet
         private void buttonsave_Click(object sender, EventArgs e)
         {
             var proxy = new Api(url, key);
-            int index = listBox1.SelectedIndex;
-            var termek = termeklista[index];
+            var termek = (Termek)listBox1.SelectedItem;
             var inventory = proxy.ProductInventoryFind(termek.inventory_id).Content;
             inventory.QuantityOnHand = int.Parse(textBoxmennyiseg.Text);
             proxy.ProductInventoryUpdate(inventory);
@@ -109,4 +113,5 @@ namespace Raktarkeszlet
             Close();
         }
     }
+
 }
