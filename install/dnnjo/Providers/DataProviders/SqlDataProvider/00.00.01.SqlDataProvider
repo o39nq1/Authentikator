@@ -1,0 +1,64 @@
+﻿/************************************************************/
+/*****              SqlDataProvider                     *****/
+/*****                                                  *****/
+/*****                                                  *****/
+/***** Note: To manually execute this script you must   *****/
+/*****       perform a search and replace operation     *****/
+/*****       for {databaseOwner} and {objectQualifier}  *****/
+/*****                                                  *****/
+/************************************************************/
+
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'{databaseOwner}{objectQualifier}AppointmentBookingAppointment') AND type in (N'U'))
+DROP TABLE {databaseOwner}{objectQualifier}AppointmentBookingAppointment
+GO
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'{databaseOwner}{objectQualifier}AppointmentBookingUser') AND type in (N'U'))
+DROP TABLE {databaseOwner}{objectQualifier}AppointmentBookingUser
+GO
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'{databaseOwner}{objectQualifier}AppointmentBookingDate') AND type in (N'U'))
+DROP TABLE {databaseOwner}{objectQualifier}AppointmentBookingDate
+GO
+
+CREATE TABLE {databaseOwner}{objectQualifier}AppointmentBookingUser
+    (
+    [UserID] INT NOT NULL IDENTITY (1,1) CONSTRAINT [PK_AppointmentBookingUser] PRIMARY KEY CLUSTERED,
+    [FirstName] NVARCHAR(1024),
+    [LastName] NVARCHAR(1024),
+    [Email] NVARCHAR(1024),
+    [PhoneNumber] NVARCHAR(32),
+    [CarType] NVARCHAR(32),
+    [CarYear] INT
+    )  ON [PRIMARY]
+GO
+
+CREATE TABLE {databaseOwner}{objectQualifier}AppointmentBookingDate
+    (
+    [DateID] INT NOT NULL IDENTITY (1,1) CONSTRAINT [PK_AppointmentBookingDate] PRIMARY KEY CLUSTERED,
+    [DateTime] DATETIME,
+    [StartTime] DATETIME,
+    [EndTime] DATETIME,
+    )  ON [PRIMARY]
+GO
+
+CREATE TABLE {databaseOwner}{objectQualifier}AppointmentBookingAppointment
+    (
+    [AppointmentID] INT NOT NULL IDENTITY (1,1) CONSTRAINT [PK_AppointmentBookingAppointment] PRIMARY KEY CLUSTERED,
+    [UserID] INT,
+    [DateID] INT,
+    [CreatedByUserID] [int] NULL,
+	[CreatedOnDate] [datetime] NULL,
+    )  ON [PRIMARY]
+GO
+
+ALTER TABLE {databaseOwner}{objectQualifier}AppointmentBookingAppointment WITH NOCHECK ADD CONSTRAINT [FK_AppointmentBookingUser_AppointmentBookingAppointment] FOREIGN KEY ([UserID])
+    REFERENCES {databaseOwner}{objectQualifier}AppointmentBookingUser ([UserID])
+    ON DELETE CASCADE
+GO
+
+ALTER TABLE {databaseOwner}{objectQualifier}AppointmentBookingAppointment WITH NOCHECK ADD CONSTRAINT [FK_AppointmentBookingDate_AppointmentBookingUser] FOREIGN KEY ([DateID])
+    REFERENCES {databaseOwner}{objectQualifier}AppointmentBookingDate ([DateID])
+    ON DELETE CASCADE
+GO
+
+/************************************************************/
+/*****              SqlDataProvider                     *****/
+/************************************************************/

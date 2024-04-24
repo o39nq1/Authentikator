@@ -1,0 +1,115 @@
+﻿@inherits DotNetNuke.Web.Mvc.Framework.DnnWebViewPage<Dnn.Appointment.Debug.DnnAppointmentDebug.Models.CreateAppointment>
+
+@using System.Web.Mvc;
+@using DotNetNuke.Web.Client.ClientResourceManagement
+@using DotNetNuke.Framework.JavaScriptLibraries
+@using Dnn.Appointment.Debug.DnnAppointmentDebug.Models;
+
+@{ 
+    ClientResourceManager.RegisterScript(Dnn.DnnPage, "~/DesktopModules/MVC/Dnn.Appointment.Debug.DnnAppointmentDebug/Scripts/Scripts.js");
+    var errorID = String.Format("error-{0}", Guid.NewGuid());
+    var formID = String.Format("form-{0}", Guid.NewGuid());
+    var carTypeOptions = ViewBag.CarTypes as SelectList;
+}
+
+<h1>Create an appointment</h1>
+
+@using System.Collections.Generic
+@using DotNetNuke.Web.Mvc.Helpers
+
+<div d="Item-@Dnn.ModuleContext.ModuleId">
+    <div class="dnnForm dnnEditBasicSettings" id="@formID">
+        <p id="@errorID"></p>
+        <fieldset>
+            <div class="dnnFormItem">
+                <div><label for="DateID">Select a day</label></div>
+                @Html.TextBox("DateTime", new { type = "date"})
+                @Html.ValidationMessage("DateTime", "This field is mandatory")
+            </div>
+            <div class="dnnFormItem">
+                <div><label for="DateID">Start of appointment</label></div>
+                @Html.TextBox("StartTime",new {type="time", min = "09:00", max = "16:00", value = "09:00", step = "60" })
+                @Html.ValidationMessage("StartTime","This field is mandatory")
+            </div>
+            <div class="dnnFormItem">
+                <div><label for="DateID">End of appointment</label></div>
+                @Html.TextBox("EndTime", new { type = "time", min = "09:00", max = "16:00", value = "16:00", step = "60" })
+                @Html.ValidationMessage("EndTime", "This field is mandatory")
+            </div>
+        </fieldset>
+        <fieldset>
+            <div class="dnnFormItem">
+                <div><label for="UserID">First Name</label></div>
+                @Html.TextBox("FirstName")
+                @Html.ValidationMessage("FirstName", "This field is mandatory")
+            </div>
+            <div class="dnnFormItem">
+                <div><label for="UserID">Last Name</label></div>
+                @Html.TextBox("LastName")
+                @Html.ValidationMessage("LastName", "This field is mandatory")
+            </div>
+            <div class="dnnFormItem">
+                <div><label for="UserID">Email</label></div>
+                @Html.TextBox("Email")
+                @Html.ValidationMessage("Email", "This field is mandatory")
+            </div>
+            <div class="dnnFormItem">
+                <div><label for="UserID">Phone Number</label></div>
+                @Html.TextBox("PhoneNumber")
+                @Html.ValidationMessage("PhoneNumber", "This field is mandatory")
+            </div>
+            <div class="dnnFormItem">
+                <div><label for="UserID">Car Type</label></div>
+                @Html.DropDownList("CarType", carTypeOptions)
+                @Html.ValidationMessage("Car Type", "This field is mandatory")
+            </div>
+            <div class="dnnFormItem">
+                <div><label for="UserID">Year</label></div>
+                @Html.TextBox("Year")
+                @Html.ValidationMessage("Year", "This field is mandatory")
+            </div>
+        </fieldset>
+        <div class="buttonContainer">
+            <div class="buttonCancelContainer">
+                <button class="cancelButton" id="cancel">Cancel</button>
+            </div>
+            <div class="buttonCreateContainer">
+                <button class="createButton" id="appointmentCreateButton">Create</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    /*globals jQuery, window, Sys */
+    (function ($, Sys) {
+        $(function () {
+            $('#cancel').click(function () { dnnModal.closePopUp(false); });
+
+        var sf = $.ServicesFramework('@Dnn.ActiveModule.ModuleID');
+            var serviceUrl = sf.getServiceRoot('AppointmentBookingAppointment');
+
+            $('#appointmentCreateButton').click(function () {
+                var dateTime = $('#DateTime').val();
+                var startTime = $('#StartTime').val();
+                var endTime = $('#EndTime').val();
+                var proxydate = new Proxy(
+                    '@Dnn.ActiveModule.ModuleID',
+                    'AppointmentBookingDate'
+                );
+                proxydate.createDate(dateTime, startTime, endTime, undefined)
+                var firstName = $("#FirstName").val();
+                var lastName = $("#LirstName").val();
+                var email = $("#Email").val();
+                var phoneNumber = $("#PhoneNumber").val();
+                var carType = $("#CarType").val();
+                var year = $("#Year").val();
+                var proxyuser = new Proxy(
+                    '@Dnn.ActiveModule.ModuleID',
+                    'AppointmentBookingUser'
+                );
+                proxyuser.createUser(firstName, lastName, email, phoneNumber, carType, year, undefined)
+
+            });
+    }(jQuery, window.Sys));
+</script>

@@ -1,0 +1,17 @@
+﻿﻿@inherits DotNetNuke.Web.Mvc.Framework.DnnWebViewPage
+
+@using DotNetNuke.Web.Client.ClientResourceManagement
+@using DotNetNuke.Framework.JavaScriptLibraries
+@using Dnn.Appointment.Debug.DnnAppointmentDebug.Services
+@using Dnn.Appointment.Debug.DnnAppointmentDebug.Models;
+@using System.Linq;
+
+<h1>Detail</h1>
+<script type="text/javascript">
+    /*globals jQuery, window, Sys */
+    (function($, Sys) {
+        var sf = $.ServicesFramework('@Dnn.ActiveModule.ModuleID');
+        var serviceUrl = sf.getServiceRoot('AppointmentBookingAppointment');
+
+    }(jQuery, window.Sys));
+</script>

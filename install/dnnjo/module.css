@@ -1,0 +1,21 @@
+.moduleWrapper {
+    background: #222222;
+    color: white;
+}
+
+.CreateButton {
+    background-color: rgba(225, 22, 22, 0.812);
+    margin: 10px;
+    text-align: left;
+    position: relative;
+}
+
+    .CreateButton::before {
+        content: "";
+        position: absolute;
+        width: 0;
+        height: 0;
+        border-width: 7px;
+        border-style: solid;
+        border-color: #111111 transparent transparent #111111;
+    }

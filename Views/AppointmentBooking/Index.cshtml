@@ -1,0 +1,57 @@
+﻿﻿@inherits DotNetNuke.Web.Mvc.Framework.DnnWebViewPage
+
+@using DotNetNuke.Web.Client.ClientResourceManagement
+@using DotNetNuke.Framework.JavaScriptLibraries
+@using Dnn.Appointment.Debug.DnnAppointmentDebug.Services
+@using Dnn.Appointment.Debug.DnnAppointmentDebug.Models;
+
+@{
+    ClientResourceManager.RegisterScript(Dnn.DnnPage, "~/DesktopModules/MVC/Dnn.Appointment.Debug.DnnAppointmentDebug/Scripts/Scripts.js");
+
+    var appointments = ViewBag.Appointments as AppointmentData[]
+        ?? new AppointmentData[] { };}
+
+<div class="moduleWrapper">
+    <div class="col-md-12 moduleContainer">
+        <div class="col-md-9">
+            <div class="textLabel">
+                <p>Why should you make an appointment?</p>
+            </div>
+            <div class="textContainer">
+                <p>Lorem Ipsum</p>
+            </div>
+            <div class="appointmentTextContainer">
+                <p>Your Appointments</p>
+            </div>
+            <div class="appointmentListContainer">
+                @if (appointments.Length == 0)
+                {
+                    <p>No appointments yet</p>
+                }
+                else
+                {
+                    foreach (var item in appointments)
+                    {
+                        <div class="appointment-item">
+                            @(item.Date)
+                            <button id="delete-@(item.AppointmentID)" class="appointment-secondary-button">Delete</button>
+                        </div>
+                    }
+                }
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="createButtonContainer">
+                <button class="createButton" onclick="@Url.Action("Create","AppointmentBooking",new {ctl = "Create", })">Create appointment</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    /*globals jQuery, window, Sys */
+    (function($, Sys) {
+        var sf = $.ServicesFramework('@Dnn.ActiveModule.ModuleID');
+        var serviceUrl = sf.getServiceRoot('AppointmentBookingAppointment');
+    }(jQuery, window.Sys));
+</script>
