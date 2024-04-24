@@ -87,9 +87,9 @@
             $('#cancel').click(function () { dnnModal.closePopUp(false); });
 
             class AppointmentProxy {
-                constructor(moduleID, servicenName) {
-                    this.servicenName = servicenName;
-                    var sf = $.ServiceFramework(moduleID);
+                constructor(moduleID, serviceName) {
+                    this.serviceName = serviceName;
+                    var sf = $.ServicesFramework(moduleID);
                     this.baseUrl = sf.getServiceRoot(serviceName);
                 }
 
@@ -161,9 +161,6 @@
                     )
                 }
             }
-
-            var sf = $.ServicesFramework('@Dnn.ActiveModule.ModuleID');
-            var serviceUrl = sf.getServiceRoot('AppointmentBookingAppointment');
 
             $('#appointmentCreateButton').click(function () {
                 console.log("elindult");
