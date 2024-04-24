@@ -166,6 +166,21 @@
             var serviceUrl = sf.getServiceRoot('AppointmentBookingAppointment');
 
             $('#appointmentCreateButton').click(function () {
+                console.log("elindult");
+                var firstName = $("#FirstName").val();
+                console.log(firstName);
+                var lastName = $("#LirstName").val();
+                var email = $("#Email").val();
+                var phoneNumber = $("#PhoneNumber").val();
+                var carType = $("#CarType").val();
+                var year = $("#Year").val();
+                var proxyuser = new AppointmentProxy(
+                '@Dnn.ActiveModule.ModuleID',
+                'AppointmentBookingUser'
+                );
+                proxyuser.createUser(firstName, lastName, email, phoneNumber, carType, year, undefined)
+                console.log("user created");
+
                 var dateTime = $('#DateTime').val();
                 var startTime = $('#StartTime').val();
                 var endTime = $('#EndTime').val();
@@ -174,18 +189,8 @@
                     'AppointmentBookingDate'
                 );
                 proxydate.createDate(dateTime, startTime, endTime, undefined)
-                var firstName = $("#FirstName").val();
-                var lastName = $("#LirstName").val();
-                var email = $("#Email").val();
-                var phoneNumber = $("#PhoneNumber").val();
-                var carType = $("#CarType").val();
-                var year = $("#Year").val();
-                var proxyuser = new AppointmentProxy(
-                    '@Dnn.ActiveModule.ModuleID',
-                    'AppointmentBookingUser'
-                );
-                proxyuser.createUser(firstName, lastName, email, phoneNumber, carType, year, undefined)
 
             });
-    }(jQuery, window.Sys));
+        })
+}(jQuery, window.Sys));
 </script>
