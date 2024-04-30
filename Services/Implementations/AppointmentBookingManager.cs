@@ -48,6 +48,9 @@ namespace Dnn.Appointment.Debug.DnnAppointmentDebug.Services
             if (currentUser.UserID == Null.NullInteger)
                 throw new AppointmentException("Guests can't create bookings.");
 
+            appointment.CreatedByUserId = currentUser.UserID;
+            appointment.CreatedOnDate = DateTime.Now;
+
             using(var ctx = DataContext.Instance())
             {
                 var r = ctx.GetRepository<AppointmentBookingAppointment>();

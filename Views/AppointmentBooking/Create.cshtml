@@ -1,12 +1,12 @@
-﻿@inherits DotNetNuke.Web.Mvc.Framework.DnnWebViewPage<Dnn.Appointment.Debug.DnnAppointmentDebug.Models.CreateAppointment>
+﻿﻿@inherits DotNetNuke.Web.Mvc.Framework.DnnWebViewPage<Dnn.Appointment.Debug.DnnAppointmentDebug.Models.CreateAppointment>
 
 @using System.Web.Mvc;
 @using DotNetNuke.Web.Client.ClientResourceManagement
 @using DotNetNuke.Framework.JavaScriptLibraries
 @using Dnn.Appointment.Debug.DnnAppointmentDebug.Models;
 
-@{ 
-    ClientResourceManager.RegisterScript(Dnn.DnnPage, "~/DesktopModules/MVC/Dnn.Appointment.Debug.DnnAppointmentDebug/Scripts/Scripts.js");
+@{
+    ClientResourceManager.RegisterScript(Dnn.DnnPage, "~/DesktopModules/MVC/DnnAppointmentDebug/Scripts/Scripts.js");
     var errorID = String.Format("error-{0}", Guid.NewGuid());
     var formID = String.Format("form-{0}", Guid.NewGuid());
     var carTypeOptions = ViewBag.CarTypes as SelectList;
@@ -23,17 +23,17 @@
         <fieldset>
             <div class="dnnFormItem">
                 <div><label for="DateID">Select a day</label></div>
-                @Html.TextBox("DateTime", new { type = "date"})
+                <input type="date" id="DateTime" name="DateID" />
                 @Html.ValidationMessage("DateTime", "This field is mandatory")
             </div>
             <div class="dnnFormItem">
                 <div><label for="DateID">Start of appointment</label></div>
-                @Html.TextBox("StartTime",new {type="time", min = "09:00", max = "16:00", value = "09:00", step = "60" })
-                @Html.ValidationMessage("StartTime","This field is mandatory")
+                <input id="StartTime" type = "time" min = "09:00" max = "16:00" value = "09:00" step = "60"/>
+                @Html.ValidationMessage("StartTime", "This field is mandatory")
             </div>
             <div class="dnnFormItem">
                 <div><label for="DateID">End of appointment</label></div>
-                @Html.TextBox("EndTime", new { type = "time", min = "09:00", max = "16:00", value = "16:00", step = "60" })
+                <input id="EndTime" type="time" min="09:00" max="16:00" value="16:00" step="60" />
                 @Html.ValidationMessage("EndTime", "This field is mandatory")
             </div>
         </fieldset>
@@ -86,108 +86,44 @@
         $(function () {
             $('#cancel').click(function () { dnnModal.closePopUp(false); });
 
-            class AppointmentProxy {
-                constructor(moduleID, serviceName) {
-                    this.serviceName = serviceName;
-                    var sf = $.ServicesFramework(moduleID);
-                    this.baseUrl = sf.getServiceRoot(serviceName);
-                }
-
-                invoke(method, url, data, callback) {
-                    $.ajax({
-                        url: url,
-                        type: method,
-                        data: data,
-                        cache: false,
-                        success: function (response) {
-                            callback(true, response);
-                        }
-                    })
-                        .fail(function (xhr) {
-                            var json = xhr.responseJSON ? xhr.responseJSON : null;
-                            var jsonError = json && json.error ? json.error : null;
-
-                            var message = jsonError
-                                || `Request from ${url} failed with status: ${xhr.status}`;
-
-                            callback(false, message);
-                        });
-                }
-
-                post(url, data, callback) {
-                    this.invoke('POST', url, data, callback);
-                }
-
-                cancel(appointmentID, callback) {
-                    this.post(
-                        this.baseUrl + 'Appointment/Cancel', {
-                        AppointmentID: appointmentID
-                    },
-                        callback
-                    )
-                }
-
-                create(dateId, userId, callback) {
-                    this.post(
-                        this.baseUrl + 'Appointment/Create', {
-                        DateId: dateId,
-                        UserId: userId
-                    },
-                        callback
-                    )
-                }
-                createDate(dateTime, startTime, endTime, callback) {
-                    this.post(
-                        this.baseUrl + 'Appointment/CreateDate', {
-                        DateTime: dateTime,
-                        StartTime: startTime,
-                        EndTime: endTime
-                    },
-                        callback
-                    )
-                }
-
-                createUser(firstName, lastName, email, phoneNumber, carType, carYear, callback) {
-                    this.post(
-                        this.baseUrl + 'Appointment/CreateUser', {
-                        FirstName: firstName,
-                        LastName: lastName,
-                        Email: email,
-                        PhoneNumber: phoneNumber,
-                        CarType: carType,
-                        CarYear: carYear
-                    },
-                        callback
-                    )
-                }
-            }
-
             $('#appointmentCreateButton').click(function () {
-                console.log("elindult");
-                var firstName = $("#FirstName").val();
-                console.log(firstName);
-                var lastName = $("#LirstName").val();
-                var email = $("#Email").val();
-                var phoneNumber = $("#PhoneNumber").val();
-                var carType = $("#CarType").val();
-                var year = $("#Year").val();
-                var proxyuser = new AppointmentProxy(
-                '@Dnn.ActiveModule.ModuleID',
-                'AppointmentBookingUser'
-                );
-                proxyuser.createUser(firstName, lastName, email, phoneNumber, carType, year, undefined)
-                console.log("user created");
-
                 var dateTime = $('#DateTime').val();
                 var startTime = $('#StartTime').val();
                 var endTime = $('#EndTime').val();
                 var proxydate = new AppointmentProxy(
-                    '@Dnn.ActiveModule.ModuleID',
-                    'AppointmentBookingDate'
+                '@Dnn.ActiveModule.ModuleID',
+                'AppointmentBookingAppointment'
                 );
-                proxydate.createDate(dateTime, startTime, endTime, undefined)
 
-            });
+                proxydate.createDate(dateTime, startTime, endTime, (success, dateresponse) => {
+                    if (success === false) { return }
+                    else {
+                        var firstName = $("#FirstName").val();
+                        var lastName = $("#LastName").val();
+                        var email = $("#Email").val();
+                        var phoneNumber = $("#PhoneNumber").val();
+                        var carType = $("#CarType").val();
+                        var year = $("#Year").val();
+                        var proxyuser = new AppointmentProxy(
+                            '@Dnn.ActiveModule.ModuleID',
+                            'AppointmentBookingAppointment'
+                        );
+                        proxyuser.createUser(firstName, lastName, email, phoneNumber, carType, year, (success, userresponse) => {
+                            if (success === false) { return }
+                            else {
+                                var proxyappointment = new AppointmentProxy(
+                                    '@Dnn.ActiveModule.ModuleID',
+                                    'AppointmentBookingAppointment'
+                                );
+                                proxyappointment.create(dateresponse.DateID, userresponse.UserID, () => undefined)
+                            }
+                        }
+                        )
+                    }
+                }
+                )
+            }
+            );
         })
 }(jQuery, window.Sys));
 </script>
