@@ -7,7 +7,6 @@
 
 @{
     ClientResourceManager.RegisterScript(Dnn.DnnPage, "~/DesktopModules/MVC/DnnAppointmentDebug/Scripts/Scripts.js");
-    var cancelAppointmentID = String.Format("cancel-{0}", Guid.NewGuid());
 
     var appointments = ViewBag.Appointments as AppointmentData[]
 ?? new AppointmentData[] { };}
@@ -35,7 +34,7 @@
                     {
                         <div class="appointment-item">
                             @(item.Date.DateTime.ToLongDateString())
-                            <button type="button" id="@cancelAppointmentID" class="appointment-secondary-button">Delete</button>
+                            <button type="button" id="delete-@item.AppointmentID" class="appointment-secondary-button" onclick="$.deleteappointment(@item.AppointmentID)">Delete</button>
                         </div>
                     }
                 }
@@ -52,15 +51,15 @@
 <script type="text/javascript">
     /*globals jQuery, window, Sys */
     (function ($, Sys) {
-        $(function (){
-            $('#@cancelAppointmentID').click(function () {
-                console.log('elindult-@cancelAppointmentID')
+        $(function () {
+            $.deleteappointment = function(cancelid) {
                 var deleteproxy = new AppointmentProxy(
-                    '@Dnn.ActiveModule.ModuleID',
-                    'AppointmentBookingAppointment'
+                '@Dnn.ActiveModule.ModuleID',
+                'AppointmentBookingAppointment'
                 );
-                deleteproxy.cancel(null, ()=>undefined)
+                deleteproxy.cancel(cancelid, () => { window.location.reload() })
             }
-            )})
-    }(jQuery, window.Sys));
+            }
+        )
+    })(jQuery, window.Sys);
 </script>
