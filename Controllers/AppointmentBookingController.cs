@@ -11,6 +11,7 @@ using System.Web.Mvc;
 using Dnn.Appointment.Debug.DnnAppointmentDebug.Models;
 using DotNetNuke.Entities.Users;
 using DotNetNuke.Common.Utilities;
+using DotNetNuke.Security;
 
 namespace Dnn.Appointment.Debug.DnnAppointmentDebug.Controllers
 {
@@ -30,6 +31,7 @@ namespace Dnn.Appointment.Debug.DnnAppointmentDebug.Controllers
             DotNetNuke.Framework.JavaScriptLibraries.JavaScript.RequestRegistration(CommonJs.jQuery);
             DotNetNuke.Framework.JavaScriptLibraries.JavaScript.RequestRegistration(CommonJs.DnnPlugins);
             ServicesFramework.Instance.RequestAjaxScriptSupport();
+            ServicesFramework.Instance.RequestAjaxAntiForgerySupport();
         }
 
         [AcceptVerbs(HttpVerbs.Post | HttpVerbs.Get)]
@@ -40,6 +42,7 @@ namespace Dnn.Appointment.Debug.DnnAppointmentDebug.Controllers
             return View();
         }
 
+        [DnnModuleAuthorize(AccessLevel = SecurityAccessLevel.View)]
         [AcceptVerbs(HttpVerbs.Post | HttpVerbs.Get)]
         public ActionResult Create()
         {
@@ -58,6 +61,7 @@ namespace Dnn.Appointment.Debug.DnnAppointmentDebug.Controllers
             return PartialView("Create");
         }
 
+        [DnnModuleAuthorize(AccessLevel = SecurityAccessLevel.View)]
         [AcceptVerbs(HttpVerbs.Post | HttpVerbs.Get)]
         public ActionResult Detail(int AppointmentID)
         {

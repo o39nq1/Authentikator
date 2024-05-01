@@ -52,6 +52,11 @@
     /*globals jQuery, window, Sys */
     (function ($, Sys) {
         $(function () {
+            $(document).ready(function () {
+                var sf = $.ServicesFramework('@Dnn.ActiveModule.ModuleID');
+                this.baseUrl = sf.getServiceRoot('AppointmentBookingAppointment');
+            })
+
             $.deleteappointment = function(cancelid) {
                 var deleteproxy = new AppointmentProxy(
                 '@Dnn.ActiveModule.ModuleID',

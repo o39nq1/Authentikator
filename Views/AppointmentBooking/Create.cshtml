@@ -7,33 +7,33 @@
 
 @{
     ClientResourceManager.RegisterScript(Dnn.DnnPage, "~/DesktopModules/MVC/DnnAppointmentDebug/Scripts/Scripts.js");
+    ClientResourceManager.RegisterStyleSheet(Dnn.DnnPage, "~/DesktopModules/MVC/DnnAppointmentDebug/Content/Create.css");
     var errorID = String.Format("error-{0}", Guid.NewGuid());
     var formID = String.Format("form-{0}", Guid.NewGuid());
     var carTypeOptions = ViewBag.CarTypes as SelectList;
 }
 
-<h1>Create an appointment</h1>
-
 @using System.Collections.Generic
 @using DotNetNuke.Web.Mvc.Helpers
+<h1>Create an appointment</h1>
 
 <div d="Item-@Dnn.ModuleContext.ModuleId">
-    <div class="dnnForm dnnEditBasicSettings" id="@formID">
+    <div class="dnnForm dnnEditBasicSettings">
         <p id="@errorID"></p>
         <fieldset>
             <div class="dnnFormItem">
                 <div><label for="DateID">Select a day</label></div>
-                <input type="date" id="DateTime" name="DateID" />
+                <input type="date" id="DateTime" name="DateID"  required="required" value="@DateTime.Now.ToString("yyyy-MM-dd")"/>
                 @Html.ValidationMessage("DateTime", "This field is mandatory")
             </div>
             <div class="dnnFormItem">
                 <div><label for="DateID">Start of appointment</label></div>
-                <input id="StartTime" type = "time" min = "09:00" max = "16:00" value = "09:00" step = "60"/>
+                <input id="StartTime" type = "time" min = "09:00" max = "16:00" value = "09:00" step = "60" required="required"/>
                 @Html.ValidationMessage("StartTime", "This field is mandatory")
             </div>
             <div class="dnnFormItem">
                 <div><label for="DateID">End of appointment</label></div>
-                <input id="EndTime" type="time" min="09:00" max="16:00" value="16:00" step="60" />
+                <input id="EndTime" type="time" min="09:00" max="16:00" value="16:00" step="60" required="required"/>
                 @Html.ValidationMessage("EndTime", "This field is mandatory")
             </div>
         </fieldset>
@@ -50,7 +50,7 @@
             </div>
             <div class="dnnFormItem">
                 <div><label for="UserID">Email</label></div>
-                @Html.TextBox("Email")
+                <input type="email" placeholder="example@example.com" id="Email" required="required"/>
                 @Html.ValidationMessage("Email", "This field is mandatory")
             </div>
             <div class="dnnFormItem">
@@ -116,6 +116,7 @@
                                     'AppointmentBookingAppointment'
                                 );
                                 proxyappointment.create(dateresponse.DateID, userresponse.UserID, () => undefined)
+                                dnnModal.closePopUp(false)
                             }
                         }
                         )
