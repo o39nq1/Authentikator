@@ -34,6 +34,7 @@ namespace Dnn.Appointment.Debug.DnnAppointmentDebug.Controllers
             ServicesFramework.Instance.RequestAjaxAntiForgerySupport();
         }
 
+        [DnnAuthorize]
         [AcceptVerbs(HttpVerbs.Post | HttpVerbs.Get)]
         public ActionResult Index()
         {
@@ -42,7 +43,7 @@ namespace Dnn.Appointment.Debug.DnnAppointmentDebug.Controllers
             return View();
         }
 
-        [DnnModuleAuthorize(AccessLevel = SecurityAccessLevel.View)]
+        [DnnAuthorize]
         [AcceptVerbs(HttpVerbs.Post | HttpVerbs.Get)]
         public ActionResult Create()
         {
@@ -61,7 +62,7 @@ namespace Dnn.Appointment.Debug.DnnAppointmentDebug.Controllers
             return PartialView("Create");
         }
 
-        [DnnModuleAuthorize(AccessLevel = SecurityAccessLevel.View)]
+        [DnnAuthorize]
         [AcceptVerbs(HttpVerbs.Post | HttpVerbs.Get)]
         public ActionResult Detail(int AppointmentID)
         {

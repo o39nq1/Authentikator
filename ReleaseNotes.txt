@@ -1,7 +1,7 @@
 ﻿<h3>DnnAppointmentDebug</h3>
 <p class="Contributor">
 	Authentikator <br />
-	<a href="mailto:levente.maruszki@stud.uni-crovinus.hu">levente.maruszki@stud.uni-crovinus.hu</a><br />
+	<a href="mailto:levente.maruszki@stud.uni-corvinus.hu">levente.maruszki@stud.uni-crovinus.hu</a><br />
 	<a href=20.234.113.211:8108>20.234.113.211:8108</a><br />
 	This extension was created using <a href="https://www.christoc.com">Christoc's</a> Module Development Templates for DNN.
 </p>

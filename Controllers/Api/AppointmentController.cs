@@ -5,6 +5,8 @@ using System.Web.Http;
 using Dnn.Appointment.Debug.DnnAppointmentDebug.Models;
 using DotNetNuke.Framework.JavaScriptLibraries;
 using DotNetNuke.Framework;
+using DotNetNuke.Web.Mvc.Framework.ActionFilters;
+using System.Web.Helpers;
 
 namespace Dnn.Appointment.Debug.DnnAppointmentDebug.Controllers.Api
 {
@@ -39,7 +41,10 @@ namespace Dnn.Appointment.Debug.DnnAppointmentDebug.Controllers.Api
                 return JsonException(ex);
             }
         }
+
         [HttpPost]
+        [ValidateAntiForgeryToken]
+        [DnnModuleAuthorize]
         public HttpResponseMessage CreateDate([FromBody] AppointmentBookingDate args)
         {
             try
@@ -61,6 +66,8 @@ namespace Dnn.Appointment.Debug.DnnAppointmentDebug.Controllers.Api
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
+        [DnnModuleAuthorize]
         public HttpResponseMessage CreateUser([FromBody] AppointmentBookingUser args)
         {
             try
@@ -85,6 +92,8 @@ namespace Dnn.Appointment.Debug.DnnAppointmentDebug.Controllers.Api
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
+        [DnnModuleAuthorize]
         public HttpResponseMessage CreateAppointment([FromBody] CreateAppointment args)
         {
             try
@@ -105,6 +114,8 @@ namespace Dnn.Appointment.Debug.DnnAppointmentDebug.Controllers.Api
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
+        [DnnModuleAuthorize]
         public HttpResponseMessage CancelAppointment([FromBody] CancelAppointment args)
         {
             try

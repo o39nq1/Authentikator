@@ -7,6 +7,7 @@
 
 @{
     ClientResourceManager.RegisterScript(Dnn.DnnPage, "~/DesktopModules/MVC/DnnAppointmentDebug/Scripts/Scripts.js");
+    ClientResourceManager.RegisterStyleSheet(Dnn.DnnPage, "~/DesktopModules/MVC/DnnAppointmentDebug/Content/Index.css");
 
     var appointments = ViewBag.Appointments as AppointmentData[]
 ?? new AppointmentData[] { };}

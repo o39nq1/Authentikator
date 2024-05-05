@@ -8,7 +8,7 @@
         <name>Authentikator</name>
         <organization>Authentikator</organization>
         <url>20.234.113.211:8108</url>
-        <email>levente.maruszki@stud.uni-crovinus.hu</email>
+        <email>levente.maruszki@stud.uni-corvinus.hu</email>
       </owner>
       <license src="License.txt"></license>
       <releaseNotes src="ReleaseNotes.txt"></releaseNotes>

@@ -3,7 +3,6 @@
         this.serviceName = serviceName;
         var sf = $.ServicesFramework(moduleID);
         this.baseUrl = sf.getServiceRoot(serviceName);
-        sf.getAntiForgeryValue();
     }
 
     invoke(method, url, data, callback) {
