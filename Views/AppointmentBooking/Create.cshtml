@@ -1,84 +1,86 @@
 ﻿﻿@inherits DotNetNuke.Web.Mvc.Framework.DnnWebViewPage<Dnn.Appointment.Debug.DnnAppointmentDebug.Models.CreateAppointment>
 
 @using System.Web.Mvc;
-@using DotNetNuke.Web.Client.ClientResourceManagement
-@using DotNetNuke.Framework.JavaScriptLibraries
+@using DotNetNuke.Web.Client.ClientResourceManagement;
+@using DotNetNuke.Framework.JavaScriptLibraries;
 @using Dnn.Appointment.Debug.DnnAppointmentDebug.Models;
+@using System.Net.Mail;
 
 @{
     ClientResourceManager.RegisterScript(Dnn.DnnPage, "~/DesktopModules/MVC/DnnAppointmentDebug/Scripts/Scripts.js");
     ClientResourceManager.RegisterStyleSheet(Dnn.DnnPage, "~/DesktopModules/MVC/DnnAppointmentDebug/Content/Create.css");
     var errorID = String.Format("error-{0}", Guid.NewGuid());
-    var formID = String.Format("form-{0}", Guid.NewGuid());
     var carTypeOptions = ViewBag.CarTypes as SelectList;
 }
 
 @using System.Collections.Generic
 @using DotNetNuke.Web.Mvc.Helpers
-<h1>Create an appointment</h1>
 
-<div d="Item-@Dnn.ModuleContext.ModuleId">
-    <div class="dnnForm dnnEditBasicSettings">
-        <p id="@errorID"></p>
-        <fieldset>
-            <div class="dnnFormItem">
-                <div><label for="DateID">Select a day</label></div>
-                <input type="date" id="DateTime" name="DateID"  required="required" value="@DateTime.Now.ToString("yyyy-MM-dd")"/>
-                @Html.ValidationMessage("DateTime", "This field is mandatory")
-            </div>
-            <div class="dnnFormItem">
-                <div><label for="DateID">Start of appointment</label></div>
-                <input id="StartTime" type = "time" min = "09:00" max = "16:00" value = "09:00" step = "60" required="required"/>
-                @Html.ValidationMessage("StartTime", "This field is mandatory")
-            </div>
-            <div class="dnnFormItem">
-                <div><label for="DateID">End of appointment</label></div>
-                <input id="EndTime" type="time" min="09:00" max="16:00" value="16:00" step="60" required="required"/>
-                @Html.ValidationMessage("EndTime", "This field is mandatory")
-            </div>
-        </fieldset>
-        <fieldset>
-            <div class="dnnFormItem">
-                <div><label for="UserID">First Name</label></div>
-                @Html.TextBox("FirstName")
-                @Html.ValidationMessage("FirstName", "This field is mandatory")
-            </div>
-            <div class="dnnFormItem">
-                <div><label for="UserID">Last Name</label></div>
-                @Html.TextBox("LastName")
-                @Html.ValidationMessage("LastName", "This field is mandatory")
-            </div>
-            <div class="dnnFormItem">
-                <div><label for="UserID">Email</label></div>
-                <input type="email" placeholder="example@example.com" id="Email" required="required"/>
-                @Html.ValidationMessage("Email", "This field is mandatory")
-            </div>
-            <div class="dnnFormItem">
-                <div><label for="UserID">Phone Number</label></div>
-                @Html.TextBox("PhoneNumber")
-                @Html.ValidationMessage("PhoneNumber", "This field is mandatory")
-            </div>
-            <div class="dnnFormItem">
-                <div><label for="UserID">Car Type</label></div>
-                @Html.DropDownList("CarType", carTypeOptions)
-                @Html.ValidationMessage("Car Type", "This field is mandatory")
-            </div>
-            <div class="dnnFormItem">
-                <div><label for="UserID">Year</label></div>
-                @Html.TextBox("Year")
-                @Html.ValidationMessage("Year", "This field is mandatory")
-            </div>
-        </fieldset>
-        <div class="buttonContainer">
-            <div class="buttonCancelContainer">
-                <button class="cancelButton" id="cancel">Cancel</button>
-            </div>
-            <div class="buttonCreateContainer">
-                <button class="createButton" id="appointmentCreateButton" type="button">Create</button>
+<div class="createFormWrapper">
+    <div class="createFormHeader">
+        <h1>Create an appointment</h1>
+    </div>
+    <div class="createFormContainer">
+        <div d="Item-@Dnn.ModuleContext.ModuleId">
+            <div class="dnnForm dnnEditBasicSettings">
+                <p id="@errorID"></p>
+                    <fieldset>
+                        <div class="dnnFormItem">
+                            <div><label for="DateID">Select a day</label></div>
+                            <input type="date" id="DateTime" name="DateID" required value="@DateTime.Now.ToString("yyyy-MM-dd")"/>
+                        </div>
+                        <div class="dnnFormItem">
+                            <div><label for="DateID">Start of appointment</label></div>
+                            <input id="StartTime" type="time" min="09:00" max="16:00" value="09:00" step="60" required />
+                        </div>
+                        <div class="dnnFormItem">
+                            <div><label for="DateID">End of appointment</label></div>
+                            <input id="EndTime" type="time" min="09:00" max="16:00" value="16:00" step="60" required />
+                        </div>
+                    </fieldset>
+                    <fieldset>
+                        <div class="dnnFormItem">
+                            <div><label for="UserID">First Name</label></div>
+                            <input type="text" placeholder="E.g. Tow" id="FirstName" required />
+                        </div>
+                        <div class="dnnFormItem">
+                            <div><label for="UserID">Last Name</label></div>
+                            <input type="text" placeholder="E.g. Mater" id="LastName" required />
+                        </div>
+                        <div class="dnnFormItem">
+                            <div><label for="UserID">Email</label></div>
+                            <input type="email" placeholder="example@example.com" id="Email" required />
+                            <p id="EmailErrorId"></p>
+                        </div>
+                        <div class="dnnFormItem">
+                            <div><label for="UserID">Phone Number</label></div>
+                            <input type="tel" placeholder="+12345678" id="PhoneNumber" required />
+                        </div>
+                        <div class="dnnFormItem">
+                            <div><label for="UserID">Car Type</label></div>
+                            @Html.DropDownList("CarType", carTypeOptions)
+                            @Html.ValidationMessage("Car Type", "This field is mandatory")
+                        </div>
+                        <div class="dnnFormItem">
+                            <div><label for="UserID">Year of making</label></div>
+                            <input type="number" placeholder="E.g. 2024" id="Year" required />
+                            <p id="YearErrorId"></p>
+                        </div>
+                    </fieldset>
+                    <div class="buttonContainer">
+                        <div class="buttonCancelContainer">
+                            <button class="cancelButton" id="cancel">Cancel</button>
+                        </div>
+                        <div class="buttonCreateContainer">
+                            <button class="createButton" id="appointmentCreateButton" type="button">Create</button>
+                        </div>
+                    </div>
             </div>
         </div>
     </div>
+    
 </div>
+
 
 <script type="text/javascript">
     /*globals jQuery, window, Sys */
@@ -90,6 +92,16 @@
                 var dateTime = $('#DateTime').val();
                 var startTime = $('#StartTime').val();
                 var endTime = $('#EndTime').val();
+                var firstName = $("#FirstName").val();
+                var lastName = $("#LastName").val();
+                var email = $("#Email").val();
+                var phoneNumber = $("#PhoneNumber").val();
+                var carType = $("#CarType").val();
+                var year = $("#Year").val();
+                if (isNaN(year) || year > 2024 || year < 1960) {
+                    $('#YearErrorId').text('year is not a number or not between 1960 and 2024');
+                    return;
+                }
                 var proxydate = new AppointmentProxy(
                 '@Dnn.ActiveModule.ModuleID',
                 'AppointmentBookingAppointment'
@@ -98,12 +110,7 @@
                 proxydate.createDate(dateTime, startTime, endTime, (success, dateresponse) => {
                     if (success === false) { return }
                     else {
-                        var firstName = $("#FirstName").val();
-                        var lastName = $("#LastName").val();
-                        var email = $("#Email").val();
-                        var phoneNumber = $("#PhoneNumber").val();
-                        var carType = $("#CarType").val();
-                        var year = $("#Year").val();
+
                         var proxyuser = new AppointmentProxy(
                             '@Dnn.ActiveModule.ModuleID',
                             'AppointmentBookingAppointment'
@@ -115,16 +122,18 @@
                                     '@Dnn.ActiveModule.ModuleID',
                                     'AppointmentBookingAppointment'
                                 );
-                                proxyappointment.create(dateresponse.DateID, userresponse.UserID, () => undefined)
-                                dnnModal.closePopUp(false)
+                                proxyappointment.create(dateresponse.DateID, userresponse.UserID, () => {
+                                    dnnModal.closePopUp(false)
+                                })
+
                             }
                         }
                         )
                     }
                 }
                 )
-            }
-            );
+            })
+            ;
         })
 }(jQuery, window.Sys));
 </script>

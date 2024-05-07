@@ -1,14 +1,42 @@
-﻿body{
-    background-color:#222222;
+﻿.createFormWrapper{
+    background-color:#333333;
     color:white;
+}
+
+.createFormHeader {
+    background-color: #222222;
+    text-align:center;
+}
+
+.createFormHeader h1{
+    color: #f8c100;
 }
 
 .buttonContainer{
     display:flex;
+    justify-content:space-between;
 }
 
-.createButton{
-    float:right;
-    margin-right:1rem;
+.cancelButton {
+    margin:1rem;
+    width:5rem;
+    height:4rem;
+    border: none;
+    box-shadow: black 4px 4px;
+    background-color: #f8c100;
+    color:black;
 }
 
+.createButton {
+    margin: 1rem;
+    width: 5rem;
+    height: 4rem;
+    border: none;
+    box-shadow: black 4px 4px;
+    background-color: rgba(225, 22, 22, 0.812);
+    color: black;
+}
+
+.createFormContainer{
+    margin: 0 1rem;
+}

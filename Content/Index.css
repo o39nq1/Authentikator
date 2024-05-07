@@ -4,11 +4,12 @@
 }
 
 .appointmentListContainer {
-    max-height:12rem;
+    max-height: 12rem;
     width: 100%;
     overflow-y: auto;
     overflow-x: clip;
-    border: solid 4px rgba(225, 22, 22, 0.812);
+    border: solid 3px #f8c100;
+    margin: 0 0 1rem 0.5rem;
 }
 
 .appointment-item {
@@ -32,11 +33,13 @@
 .appointment-secondary-button {
     background-color: rgba(225, 22, 22, 0.812);
     position: relative;
-    border: 2px #000000 solid;
+    border: none;
+    box-shadow: 4px 4px black;
     float: right;
     height: 3rem;
     width: 4rem;
     text-align: center;
+    color: black;
 }
 
 .moduleHeader {
@@ -78,4 +81,5 @@
     position: relative;
     border: none;
     box-shadow: 4px 4px black;
+    color:black;
 }

@@ -37,10 +37,6 @@
       <name>Documentation.html</name>
     </file>
     <file>
-      <path>Views/Shared/</path>
-      <name>_Layout.cshtml</name>
-    </file>
-    <file>
       <path>install/dnnjo/Content/</path>
       <name>Create.css</name>
     </file>
@@ -49,8 +45,8 @@
       <name>Index.css</name>
     </file>
     <file>
-      <path>Views/Settings/</path>
-      <name>Settings.cshtml</name>
+      <path>Views/Shared/</path>
+      <name>_Layout.cshtml</name>
     </file>
     <file>
       <path>install/dnnjo/App_LocalResources/</path>
@@ -61,16 +57,8 @@
       <name>Settings.resx</name>
     </file>
     <file>
-      <path>Views/AppointmentBooking/</path>
-      <name>Create.cshtml</name>
-    </file>
-    <file>
-      <path>Views/AppointmentBooking/</path>
-      <name>Detail.cshtml</name>
-    </file>
-    <file>
-      <path>Views/AppointmentBooking/</path>
-      <name>Index.cshtml</name>
+      <path>Views/Settings/</path>
+      <name>Settings.cshtml</name>
     </file>
     <file>
       <path>install/dnnjo/</path>
@@ -85,6 +73,22 @@
       <name>ReleaseNotes.txt</name>
     </file>
     <file>
+      <path>Views/AppointmentBooking/</path>
+      <name>Create.cshtml</name>
+    </file>
+    <file>
+      <path>Views/AppointmentBooking/</path>
+      <name>Detail.cshtml</name>
+    </file>
+    <file>
+      <path>Views/AppointmentBooking/</path>
+      <name>Index.cshtml</name>
+    </file>
+    <file>
+      <path>Scripts/</path>
+      <name>Scripts.js</name>
+    </file>
+    <file>
       <path>Content/</path>
       <name>Create.css</name>
     </file>
@@ -93,20 +97,16 @@
       <name>Index.css</name>
     </file>
     <file>
+      <path>Views/</path>
+      <name>_ViewStart.cshtml</name>
+    </file>
+    <file>
       <path>Documentation/</path>
       <name>Documentation.css</name>
     </file>
     <file>
       <path>Documentation/</path>
       <name>Documentation.html</name>
-    </file>
-    <file>
-      <path>Views/</path>
-      <name>_ViewStart.cshtml</name>
-    </file>
-    <file>
-      <path>Scripts/</path>
-      <name>Scripts.js</name>
     </file>
     <file>
       <path>App_LocalResources/</path>

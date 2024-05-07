@@ -49,7 +49,6 @@ namespace Dnn.Appointment.Debug.DnnAppointmentDebug.Controllers
         {
             ViewBag.CarTypes = new SelectList(new[]
             {
-                new SelectListItem() {Text = "Select car type", Value=null, Selected=true},
                 new SelectListItem() {Text = "911", Value="911"},
                 new SelectListItem() {Text = "GT3", Value="gt3"},
                 new SelectListItem() {Text = "991", Value = "991"}
