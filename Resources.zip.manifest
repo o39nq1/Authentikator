@@ -85,12 +85,12 @@
       <name>ReleaseNotes.txt</name>
     </file>
     <file>
-      <path>Scripts/</path>
-      <name>Scripts.js</name>
+      <path>Content/</path>
+      <name>Create.css</name>
     </file>
     <file>
-      <path>Views/</path>
-      <name>_ViewStart.cshtml</name>
+      <path>Content/</path>
+      <name>Index.css</name>
     </file>
     <file>
       <path>Documentation/</path>
@@ -101,12 +101,12 @@
       <name>Documentation.html</name>
     </file>
     <file>
-      <path>Content/</path>
-      <name>Create.css</name>
+      <path>Views/</path>
+      <name>_ViewStart.cshtml</name>
     </file>
     <file>
-      <path>Content/</path>
-      <name>Index.css</name>
+      <path>Scripts/</path>
+      <name>Scripts.js</name>
     </file>
     <file>
       <path>App_LocalResources/</path>

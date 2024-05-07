@@ -10,40 +10,50 @@
     ClientResourceManager.RegisterStyleSheet(Dnn.DnnPage, "~/DesktopModules/MVC/DnnAppointmentDebug/Content/Index.css");
 
     var appointments = ViewBag.Appointments as AppointmentData[]
-?? new AppointmentData[] { };}
+?? new AppointmentData[] { };
+    }
 
 <div class="moduleWrapper">
+    <div class="col-md-12 moduleHeader">
+        <h1 class="moduleHeaderText">Book an appointment today!</h1>
+    </div>
     <div class="col-md-12 moduleContainer">
         <div class="col-md-9">
             <div class="textLabel">
                 <p>Why should you make an appointment?</p>
             </div>
             <div class="textContainer">
-                <p>Lorem Ipsum</p>
+                <p>Looking to elevate your Porsche driving experience? Book an appointment with our expert tuning advisors for persionalized guidance and recommendations tailored to your needs. Whether you're seeking performance enhancements or aesthetic upgrades, we're here to help you unlock the full potential of you Porsche. Schedule your appointment today and embark on the journey to unleash the power and style of your Porsche!</p>
             </div>
             <div class="appointmentTextContainer">
                 <p>Your Appointments</p>
             </div>
-            <div class="appointmentListContainer">
-                @if (appointments.Length == 0)
-                {
-                    <p>No appointments yet</p>
-                }
-                else
-                {
-                    foreach (var item in appointments)
+            @if (appointments.Length == 0)
+            {
+                <p>No appointments yet</p>
+            }
+            else
+            {
+                <div class="appointmentListContainer">
+                    @foreach (var item in appointments)
                     {
                         <div class="appointment-item">
-                            @(item.Date.DateTime.ToLongDateString())
+                            <div class="appointment-itemText">
+                                <p>@(item.User.Email)</p>
+                                <p>@(item.Date.DateTime.ToLongDateString())&emsp;@(item.Date.StartTime.ToString("HH")):@(item.Date.StartTime.ToString("mm")) - @(item.Date.EndTime.ToString("HH")):@(item.Date.EndTime.ToString("mm"))</p>
+                            </div>
                             <button type="button" id="delete-@item.AppointmentID" class="appointment-secondary-button" onclick="$.deleteappointment(@item.AppointmentID)">Delete</button>
                         </div>
                     }
-                }
+                </div>
+                    }
+                </div>
+        <div class="createContainer col-md-3">
+            <div class="createTextContainer">
+                <p class="createText">Make an appointment</p>
             </div>
-        </div>
-        <div class="col-md-3">
             <div class="createButtonContainer">
-                <button type="button" class="createButton" onclick="@Url.Action("Create","AppointmentBooking",new {ctl = "Create", })">Create appointment</button>
+                <button type="button" class="createButton" onclick="@Url.Action("Create","AppointmentBooking",new {ctl = "Create", })">Book appointment</button>
             </div>
         </div>
     </div>

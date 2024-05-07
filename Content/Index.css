@@ -1,15 +1,81 @@
 ﻿.moduleContainer{
-    background:#222222;
+    background:#333333;
     color:white;
 }
 
-.CreateButton {
-    background-color: rgba(225, 22, 22, 0.812);
-    margin: 10px;
-    text-align: left;
-    position: relative;
-    border-width: 7px;
-    border-style: solid;
-    border-color:#111111;
+.appointmentListContainer {
+    max-height:12rem;
+    width: 100%;
+    overflow-y: auto;
+    overflow-x: clip;
+    border: solid 4px rgba(225, 22, 22, 0.812);
 }
 
+.appointment-item {
+    height: 4rem;
+    width: 100%;
+    padding: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.appointment-item:hover{
+    background-color: #222222;
+}
+
+.appointment-itemText p{
+    margin:0px;
+    padding:0px;
+}
+
+.appointment-secondary-button {
+    background-color: rgba(225, 22, 22, 0.812);
+    position: relative;
+    border: 2px #000000 solid;
+    float: right;
+    height: 3rem;
+    width: 4rem;
+    text-align: center;
+}
+
+.moduleHeader {
+    text-align: center;
+    background-color: #222222;
+}
+
+.moduleHeaderText {
+    color: #f8c100;
+}
+
+.appointmentTextContainer {
+    color: #f8c100;
+}
+
+.textLabel {
+    color: #f8c100;
+}
+
+.textContainer{
+    padding-left:0.5rem;
+}
+
+.createContainer{
+    display:block;
+    align-items:center;
+    justify-items:center;
+}
+
+.createTextContainer {
+    color: #f8c100;
+}
+
+.createButton {
+    background-color: rgba(225, 22, 22, 0.812);
+    width:6rem;
+    height:4rem;
+    text-align: center;
+    position: relative;
+    border: none;
+    box-shadow: 4px 4px black;
+}
