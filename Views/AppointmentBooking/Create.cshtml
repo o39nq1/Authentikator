@@ -9,7 +9,6 @@
 @{
     ClientResourceManager.RegisterScript(Dnn.DnnPage, "~/DesktopModules/MVC/DnnAppointmentDebug/Scripts/Scripts.js");
     ClientResourceManager.RegisterStyleSheet(Dnn.DnnPage, "~/DesktopModules/MVC/DnnAppointmentDebug/Content/Create.css");
-    var errorID = String.Format("error-{0}", Guid.NewGuid());
     var carTypeOptions = ViewBag.CarTypes as SelectList;
 }
 
@@ -23,56 +22,61 @@
     <div class="createFormContainer">
         <div d="Item-@Dnn.ModuleContext.ModuleId">
             <div class="dnnForm dnnEditBasicSettings">
-                <p id="@errorID"></p>
                     <fieldset>
                         <div class="dnnFormItem">
-                            <div><label for="DateID">Select a day</label></div>
+                            <div><label for="DateID">Válasszon ki egy napot</label></div>
                             <input type="date" id="DateTime" name="DateID" required value="@DateTime.Now.ToString("yyyy-MM-dd")"/>
+                            <p id="DateError"></p>
                         </div>
                         <div class="dnnFormItem">
-                            <div><label for="DateID">Start of appointment</label></div>
-                            <input id="StartTime" type="time" min="09:00" max="16:00" value="09:00" step="60" required />
+                            <div><label for="DateID">Időpont kezdete</label></div>
+                            <input id="StartTime" type="time" value="09:00" required />
+                            <p id="StartError"></p>
                         </div>
                         <div class="dnnFormItem">
-                            <div><label for="DateID">End of appointment</label></div>
-                            <input id="EndTime" type="time" min="09:00" max="16:00" value="16:00" step="60" required />
+                            <div><label for="DateID">Időpont vége</label></div>
+                            <input id="EndTime" type="time" value="16:00" required />
+                            <p id="EndError"></p>
                         </div>
                     </fieldset>
                     <fieldset>
                         <div class="dnnFormItem">
-                            <div><label for="UserID">First Name</label></div>
-                            <input type="text" placeholder="E.g. Tow" id="FirstName" required />
+                            <div><label for="UserID">Vezetéknév</label></div>
+                            <input type="text" placeholder="E.g. Tow" id="LastName" required />
+                            <p id="LastNameError"></p>
                         </div>
                         <div class="dnnFormItem">
-                            <div><label for="UserID">Last Name</label></div>
-                            <input type="text" placeholder="E.g. Mater" id="LastName" required />
+                            <div><label for="UserID">Keresztnév</label></div>
+                            <input type="text" placeholder="E.g. Mater" id="FirstName" required />
+                            <p id="FirstNameError"></p>
                         </div>
                         <div class="dnnFormItem">
                             <div><label for="UserID">Email</label></div>
                             <input type="email" placeholder="example@example.com" id="Email" required />
-                            <p id="EmailErrorId"></p>
+                            <p id="EmailError"></p>
                         </div>
                         <div class="dnnFormItem">
-                            <div><label for="UserID">Phone Number</label></div>
+                            <div><label for="UserID">Telefonszám</label></div>
                             <input type="tel" placeholder="+12345678" id="PhoneNumber" required />
+                            <p id="PhoneError"></p>
                         </div>
                         <div class="dnnFormItem">
-                            <div><label for="UserID">Car Type</label></div>
+                            <div><label for="UserID">Autó típusa</label></div>
                             @Html.DropDownList("CarType", carTypeOptions)
-                            @Html.ValidationMessage("Car Type", "This field is mandatory")
+                            <p id="CarTypeError"></p>
                         </div>
                         <div class="dnnFormItem">
-                            <div><label for="UserID">Year of making</label></div>
+                            <div><label for="UserID">Autó gyártási éve</label></div>
                             <input type="number" placeholder="E.g. 2024" id="Year" required />
-                            <p id="YearErrorId"></p>
+                            <p id="YearError"></p>
                         </div>
                     </fieldset>
                     <div class="buttonContainer">
                         <div class="buttonCancelContainer">
-                            <button class="cancelButton" id="cancel">Cancel</button>
+                            <button class="cancelButton" id="cancel">Mégsem</button>
                         </div>
                         <div class="buttonCreateContainer">
-                            <button class="createButton" id="appointmentCreateButton" type="button">Create</button>
+                            <button class="createButton" id="appointmentCreateButton" type="button">Időpont foglalása</button>
                         </div>
                     </div>
             </div>
@@ -90,18 +94,114 @@
 
             $('#appointmentCreateButton').click(function () {
                 var dateTime = $('#DateTime').val();
-                var startTime = $('#StartTime').val();
-                var endTime = $('#EndTime').val();
-                var firstName = $("#FirstName").val();
-                var lastName = $("#LastName").val();
-                var email = $("#Email").val();
-                var phoneNumber = $("#PhoneNumber").val();
-                var carType = $("#CarType").val();
-                var year = $("#Year").val();
-                if (isNaN(year) || year > 2024 || year < 1960) {
-                    $('#YearErrorId').text('year is not a number or not between 1960 and 2024');
+                if (Date.parse(dateTime) < Date.now() + 518400000) {
+                    $('#DateError').text('A mai naphoz képest legalább egy héttel későbbi időpontot kell választani');
                     return;
                 }
+                else { $('#DateError').text(''); }
+
+                var startTime = $('#StartTime').val();
+                var partsStart = startTime.split(":");
+                var hoursStart = parseInt(partsStart[0]);
+                var minutesStart = parseInt(partsStart[1]);
+                var totalMinutesStart = hoursStart * 60 + minutesStart;
+                if (totalMinutesStart < 9 * 60 || totalMinutesStart > 15 * 60) {
+                    $('#StartError').text('Az időpont kezdetének 9:00 és 15:00 között kell lennie');
+                    return;
+                }
+                else { $('#StartError').text(''); }
+
+                var endTime = $('#EndTime').val();
+                var partsEnd = endTime.split(":");
+                var hoursEnd = parseInt(partsEnd[0]);
+                var minutesEnd = parseInt(partsEnd[1]);
+                var totalMinutesEnd = hoursEnd * 60 + minutesEnd;
+                if (totalMinutesEnd < (10 * 60) || totalMinutesEnd > (16 * 60)) {
+                    $('#EndError').text('Az időpont végének 10:00 és 16:00 között kell lennie');
+                    return;
+                }
+                else { $('#EndError').text(''); }
+
+                if (totalMinutesEnd - totalMinutesStart < 60) {
+                    $('#EndError').text('Az időpontnak legalább 1 óra hosszúnak kell lennie');
+                    return;
+                }
+                else { $('#EndError').text(''); }
+
+                var lastName = $("#LastName").val();
+                var regexLastName = /^[a-zA-ZáéíóöőúüűÁÉÍÓÖŐÚÜŰ]+(?:-[a-zA-ZáéíóöőúüűÁÉÍÓÖŐÚÜŰ]+)*$/;
+                if (lastName=='') {
+                    $('#LastNameError').text('Nem lehet üres a mező');
+                    return;
+                }
+                else { $('#LastNameError').text(''); }
+
+                if (!regexLastName.test(lastName)) {
+                    $('#LastNameError').text('Csak kis és nagy betűket tartalmazhat és kötőjelet');
+                    return;
+                }
+                else { $('#LastNameError').text(''); }
+
+                var firstName = $("#FirstName").val();
+                var regexFirstName = /^[a-zA-ZáéíóöőúüűÁÉÍÓÖŐÚÜŰ]+$/;
+                if (firstName=='') {
+                    $('#FirstNameError').text('Nem lehet üres a mező');
+                    return;
+                }
+                else { $('#FirstNameError').text(''); }
+
+                if (!regexFirstName.test(firstName)) {
+                    $('#FirstNameError').text('Csak kis és nagy betűket tartalmazhat');
+                    return;
+                }
+                else { $('#FirstNameError').text(''); }
+
+                var email = $("#Email").val();
+                var regexEmail = /^[^\s@@]+@@[^\s@@]+\.[^\s@@]+$/;
+                if (email == '') {
+                    $('#EmailError').text('Nem lehet üres a mező');
+                    return;
+                }
+                else { $('#EmailError').text(''); }
+
+                if (!regexEmail.test(email)) {
+                    $('#EmailError').text('Email formátum: Példa@@Példa.hu');
+                    return;
+                }
+                else { $('#EmailError').text(''); }
+
+                var phoneNumber = $("#PhoneNumber").val();
+                var regexPhone = /^(?:\+36|06)(?:20|30|31|70|1\d{1,2})\d{7}$/
+                if (phoneNumber == '') {
+                    $('#PhoneError').text('Nem lehet üres a mező');
+                    return;
+                }
+                else { $('#PhoneError').text(''); }
+
+                if (!regexPhone.test(phoneNumber)) {
+                    $('#PhoneError').text('06/+36 20/30/70 1234567');
+                    return;
+                }
+
+                var carType = $("#CarType").val();
+                if (carType == null) {
+                    $('#CarTypeError').text('Nem választott típust');
+                    return;
+                }
+
+                var year = $("#Year").val();
+                if (isNaN(year)) {
+                    $('#YearError').text('Csak évszámot lehet beírni');
+                    return;
+                }
+                else { $('#YearError').text(''); }
+
+                if (year > 2024 || year < 1960) {
+                    $('#YearError').text('1960 és 2024 közötti évszámot');
+                    return;
+                }
+                else { $('#YearError').text(''); }
+                
                 var proxydate = new AppointmentProxy(
                 '@Dnn.ActiveModule.ModuleID',
                 'AppointmentBookingAppointment'
@@ -110,7 +210,6 @@
                 proxydate.createDate(dateTime, startTime, endTime, (success, dateresponse) => {
                     if (success === false) { return }
                     else {
-
                         var proxyuser = new AppointmentProxy(
                             '@Dnn.ActiveModule.ModuleID',
                             'AppointmentBookingAppointment'

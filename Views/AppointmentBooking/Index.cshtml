@@ -15,22 +15,22 @@
 
 <div class="moduleWrapper">
     <div class="col-md-12 moduleHeader">
-        <h1 class="moduleHeaderText">Book an appointment today!</h1>
+        <h1 class="moduleHeaderText">Foglaljon időpontot még ma!</h1>
     </div>
     <div class="col-md-12 moduleContainer">
         <div class="col-md-9">
             <div class="textLabel">
-                <p>Why should you make an appointment?</p>
+                <p>Miért érdemes időpontot foglalnia?</p>
             </div>
             <div class="textContainer">
                 <p>Looking to elevate your Porsche driving experience? Book an appointment with our expert tuning advisors for persionalized guidance and recommendations tailored to your needs. Whether you're seeking performance enhancements or aesthetic upgrades, we're here to help you unlock the full potential of you Porsche. Schedule your appointment today and embark on the journey to unleash the power and style of your Porsche!</p>
             </div>
             <div class="appointmentTextContainer">
-                <p>Your Appointments</p>
+                <p>Időpontjai</p>
             </div>
             @if (appointments.Length == 0)
             {
-                <p>No appointments yet</p>
+                <p>Ön még nem foglalt időpontot</p>
             }
             else
             {
@@ -42,7 +42,7 @@
                                 <p>@(item.User.Email)</p>
                                 <p>@(item.Date.DateTime.ToLongDateString())&emsp;@(item.Date.StartTime.ToString("HH")):@(item.Date.StartTime.ToString("mm")) - @(item.Date.EndTime.ToString("HH")):@(item.Date.EndTime.ToString("mm"))</p>
                             </div>
-                            <button type="button" id="delete-@item.AppointmentID" class="appointment-secondary-button" onclick="$.deleteappointment(@item.AppointmentID)">Delete</button>
+                            <button type="button" id="delete-@item.AppointmentID" class="appointment-secondary-button" onclick="$.deleteappointment(@item.AppointmentID)">Törlés</button>
                         </div>
                     }
                 </div>
@@ -50,10 +50,10 @@
                 </div>
         <div class="createContainer col-md-3">
             <div class="createTextContainer">
-                <p class="createText">Make an appointment</p>
+                <p class="createText">Foglaljon időpontot</p>
             </div>
             <div class="createButtonContainer">
-                <button type="button" class="createButton" onclick="@Url.Action("Create","AppointmentBooking",new {ctl = "Create", })">Book appointment</button>
+                <button type="button" class="createButton" onclick="@Url.Action("Create","AppointmentBooking",new {ctl = "Create", })">Időpontfoglalás</button>
             </div>
         </div>
     </div>
@@ -68,12 +68,15 @@
                 this.baseUrl = sf.getServiceRoot('AppointmentBookingAppointment');
             })
 
-            $.deleteappointment = function(cancelid) {
-                var deleteproxy = new AppointmentProxy(
-                '@Dnn.ActiveModule.ModuleID',
-                'AppointmentBookingAppointment'
-                );
-                deleteproxy.cancel(cancelid, () => { window.location.reload() })
+            $.deleteappointment = function (cancelid) {
+                var check = confirm("Biztosan törölni szeretné a foglalást?")
+                if (check) {
+                    var deleteproxy = new AppointmentProxy(
+                    '@Dnn.ActiveModule.ModuleID',
+                    'AppointmentBookingAppointment'
+                    );
+                    deleteproxy.cancel(cancelid, () => { window.location.reload() })
+                }
             }
             }
         )

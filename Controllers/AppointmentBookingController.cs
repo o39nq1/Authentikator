@@ -48,10 +48,25 @@ namespace Dnn.Appointment.Debug.DnnAppointmentDebug.Controllers
         public ActionResult Create()
         {
             ViewBag.CarTypes = new SelectList(new[]
-            {
-                new SelectListItem() {Text = "911", Value="911"},
-                new SelectListItem() {Text = "GT3", Value="gt3"},
-                new SelectListItem() {Text = "991", Value = "991"}
+            {					
+                new SelectListItem() {Text = "Válasszon egy típust", Value = null},
+                new SelectListItem() {Text = "356", Value = "356"},
+                new SelectListItem() {Text = "911", Value = "911"},
+                new SelectListItem() {Text = "914", Value = "914"},
+                new SelectListItem() {Text = "928", Value = "928"},
+                new SelectListItem() {Text = "944", Value = "944"},
+                new SelectListItem() {Text = "964", Value = "964"},
+                new SelectListItem() {Text = "991", Value = "991"},
+                new SelectListItem() {Text = "992", Value = "992"},
+                new SelectListItem() {Text = "993", Value = "993"},
+                new SelectListItem() {Text = "996", Value = "996"},
+                new SelectListItem() {Text = "997", Value = "997"},
+                new SelectListItem() {Text = "Boxster", Value = "Boxster"},
+                new SelectListItem() {Text = "Cayenne", Value = "Cayenne"},
+                new SelectListItem() {Text = "Cayman", Value = "Cayman"},
+                new SelectListItem() {Text = "GT3", Value="GT3"},
+                new SelectListItem() {Text = "Macan", Value = "Macan"},
+                new SelectListItem() {Text = "Panamera", Value = "Panamera"}
             }, nameof(SelectListItem.Value), nameof(SelectListItem.Text));
 
             if(User.IsAdmin) 
