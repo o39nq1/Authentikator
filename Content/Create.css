@@ -41,7 +41,7 @@
     margin: 0 1rem;
 }
 
-.input {
+input {
     all: unset;
     width: 40%;
     height: 2rem;

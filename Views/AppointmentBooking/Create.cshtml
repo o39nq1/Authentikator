@@ -57,7 +57,7 @@
                         </div>
                         <div class="dnnFormItem">
                             <div><label for="UserID">Telefonszám</label></div>
-                            <input type="tel" placeholder="+12345678" id="PhoneNumber" required />
+                            <input type="text" placeholder="+12345678" id="PhoneNumber" required />
                             <p id="PhoneError"></p>
                         </div>
                         <div class="dnnFormItem">
@@ -67,7 +67,7 @@
                         </div>
                         <div class="dnnFormItem">
                             <div><label for="UserID">Autó gyártási éve</label></div>
-                            <input type="number" placeholder="E.g. 2024" id="Year" required />
+                            <input type="text" placeholder="E.g. 2024" id="Year" required />
                             <p id="YearError"></p>
                         </div>
                     </fieldset>
@@ -96,6 +96,7 @@
                 var dateTime = $('#DateTime').val();
                 if (Date.parse(dateTime) < Date.now() + 518400000) {
                     $('#DateError').text('A mai naphoz képest legalább egy héttel későbbi időpontot kell választani');
+                    $(window).scrollTop($('#DateTime').position().top);
                     return;
                 }
                 else { $('#DateError').text(''); }
@@ -107,6 +108,7 @@
                 var totalMinutesStart = hoursStart * 60 + minutesStart;
                 if (totalMinutesStart < 9 * 60 || totalMinutesStart > 15 * 60) {
                     $('#StartError').text('Az időpont kezdetének 9:00 és 15:00 között kell lennie');
+                    $(window).scrollTop($('#StartError').position().top);
                     return;
                 }
                 else { $('#StartError').text(''); }
@@ -118,12 +120,14 @@
                 var totalMinutesEnd = hoursEnd * 60 + minutesEnd;
                 if (totalMinutesEnd < (10 * 60) || totalMinutesEnd > (16 * 60)) {
                     $('#EndError').text('Az időpont végének 10:00 és 16:00 között kell lennie');
+                    $(window).scrollTop($('#StartError').position().top);
                     return;
                 }
                 else { $('#EndError').text(''); }
 
                 if (totalMinutesEnd - totalMinutesStart < 60) {
                     $('#EndError').text('Az időpontnak legalább 1 óra hosszúnak kell lennie');
+                    $(window).scrollTop($('#EndError').position().top);
                     return;
                 }
                 else { $('#EndError').text(''); }
@@ -132,12 +136,14 @@
                 var regexLastName = /^[a-zA-ZáéíóöőúüűÁÉÍÓÖŐÚÜŰ]+(?:-[a-zA-ZáéíóöőúüűÁÉÍÓÖŐÚÜŰ]+)*$/;
                 if (lastName=='') {
                     $('#LastNameError').text('Nem lehet üres a mező');
+                    $(window).scrollTop($('#LastNameError').position().top);
                     return;
                 }
                 else { $('#LastNameError').text(''); }
 
                 if (!regexLastName.test(lastName)) {
                     $('#LastNameError').text('Csak kis és nagy betűket tartalmazhat és kötőjelet');
+                    $(window).scrollTop($('#LastNameError').position().top);
                     return;
                 }
                 else { $('#LastNameError').text(''); }
@@ -146,12 +152,14 @@
                 var regexFirstName = /^[a-zA-ZáéíóöőúüűÁÉÍÓÖŐÚÜŰ]+$/;
                 if (firstName=='') {
                     $('#FirstNameError').text('Nem lehet üres a mező');
+                    $(window).scrollTop($('#FirstNameError').position().top);
                     return;
                 }
                 else { $('#FirstNameError').text(''); }
 
                 if (!regexFirstName.test(firstName)) {
                     $('#FirstNameError').text('Csak kis és nagy betűket tartalmazhat');
+                    $(window).scrollTop($('#FirstNameError').position().top);
                     return;
                 }
                 else { $('#FirstNameError').text(''); }
@@ -160,12 +168,14 @@
                 var regexEmail = /^[^\s@@]+@@[^\s@@]+\.[^\s@@]+$/;
                 if (email == '') {
                     $('#EmailError').text('Nem lehet üres a mező');
+                    $(window).scrollTop($('#EmailError').position().top);
                     return;
                 }
                 else { $('#EmailError').text(''); }
 
                 if (!regexEmail.test(email)) {
                     $('#EmailError').text('Email formátum: Példa@@Példa.hu');
+                    $(window).scrollTop($('#EmailError').position().top);
                     return;
                 }
                 else { $('#EmailError').text(''); }
@@ -184,12 +194,20 @@
                 }
 
                 var carType = $("#CarType").val();
-                if (carType == null) {
+                if (carType == '') {
                     $('#CarTypeError').text('Nem választott típust');
                     return;
                 }
+                else { $('#CarTypeError').text(''); }
 
                 var year = $("#Year").val();
+                console.log(year);
+                if (year == '') {
+                    $('#YearError').text('Nem lehet üres a mező');
+                    return;
+                }
+                else { $('#YearError').text(''); }
+
                 if (isNaN(year)) {
                     $('#YearError').text('Csak évszámot lehet beírni');
                     return;
@@ -201,7 +219,7 @@
                     return;
                 }
                 else { $('#YearError').text(''); }
-                
+
                 var proxydate = new AppointmentProxy(
                 '@Dnn.ActiveModule.ModuleID',
                 'AppointmentBookingAppointment'
@@ -221,10 +239,9 @@
                                     '@Dnn.ActiveModule.ModuleID',
                                     'AppointmentBookingAppointment'
                                 );
-                                proxyappointment.create(dateresponse.DateID, userresponse.UserID, () => {
-                                    dnnModal.closePopUp(false)
+                                proxyappointment.create(dateresponse.DateID, userresponse.UserID, (success, appointmentresponse) => {                                
+                                    dnnModal.closePopUp(true)
                                 })
-
                             }
                         }
                         )

@@ -29,6 +29,23 @@ namespace Dnn.Appointment.Debug.DnnAppointmentDebug.Services
 
         private UserController UserController { get; }
 
+        public AppointmentData[] GetAppointmentData()
+        {
+            var currentUser = UserController.GetCurrentUserInfo();
+            if (currentUser.IsSuperUser)
+            {
+                using (var ctx = DataContext.Instance())
+                {
+                    var r = ctx.GetRepository<AppointmentBookingAppointment>().Get().ToArray();
+                    return FetchAppointmentData(ctx, r);
+                }
+            }
+            else
+            {
+                return null;
+            }
+        }
+
         public void CancelAppointment(int AppointmentID)
         {
             using (var ctx = DataContext.Instance())

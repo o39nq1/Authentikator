@@ -5,6 +5,7 @@ namespace Dnn.Appointment.Debug.DnnAppointmentDebug.Services
 {
     public interface IAppointmentBookingManager
     {
+        AppointmentData[] GetAppointmentData();
         AppointmentData FindAppointmentByID(int AppointmentID);
 
         AppointmentData[] FindAppointmentsByUser(

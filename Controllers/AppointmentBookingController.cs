@@ -38,8 +38,17 @@ namespace Dnn.Appointment.Debug.DnnAppointmentDebug.Controllers
         [AcceptVerbs(HttpVerbs.Post | HttpVerbs.Get)]
         public ActionResult Index()
         {
-            var appointments = AppointManager.FindAppointmentsByUser(User.UserID);
-            ViewBag.Appointments = appointments;
+            var currentUser = UserController.GetCurrentUserInfo();
+            if (currentUser.IsSuperUser)
+            {
+                var appointments = AppointManager.GetAppointmentData();
+                ViewBag.Appointments = appointments;
+            }
+            else
+            {
+                var appointments = AppointManager.FindAppointmentsByUser(User.UserID);
+                ViewBag.Appointments = appointments;
+            }
             return View();
         }
 
@@ -83,7 +92,8 @@ namespace Dnn.Appointment.Debug.DnnAppointmentDebug.Controllers
             InitPopup();
 
             var appointment = AppointManager.FindAppointmentByID(AppointmentID);
-            return PartialView(appointment);
+            ViewBag.Appointment = appointment;
+            return PartialView("Detail");
         }
     }
 }

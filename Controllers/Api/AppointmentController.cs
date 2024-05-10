@@ -16,6 +16,21 @@ namespace Dnn.Appointment.Debug.DnnAppointmentDebug.Controllers.Api
             IAppointmentBookingManager appointmentManager): base(appointmentManager) { }
 
         [HttpGet]
+        public HttpResponseMessage GetAllAppointments()
+        {
+            try
+            {
+                var allappointments = AppointmentBooking.GetAppointmentData();
+                return Json(new { allappointments });
+            }
+            catch (Exception ex)
+            {
+
+                return JsonException(ex);
+            }
+        }
+
+        [HttpGet]
         public HttpResponseMessage GetAppointmentById(int id)
         {
             try

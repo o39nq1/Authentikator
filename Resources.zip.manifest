@@ -85,12 +85,20 @@
       <name>Index.cshtml</name>
     </file>
     <file>
-      <path>Scripts/</path>
-      <name>Scripts.js</name>
+      <path>Documentation/</path>
+      <name>Documentation.css</name>
+    </file>
+    <file>
+      <path>Documentation/</path>
+      <name>Documentation.html</name>
     </file>
     <file>
       <path>Content/</path>
       <name>Create.css</name>
+    </file>
+    <file>
+      <path>Content/</path>
+      <name>Detail.css</name>
     </file>
     <file>
       <path>Content/</path>
@@ -101,12 +109,8 @@
       <name>_ViewStart.cshtml</name>
     </file>
     <file>
-      <path>Documentation/</path>
-      <name>Documentation.css</name>
-    </file>
-    <file>
-      <path>Documentation/</path>
-      <name>Documentation.html</name>
+      <path>Scripts/</path>
+      <name>Scripts.js</name>
     </file>
     <file>
       <path>App_LocalResources/</path>

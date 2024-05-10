@@ -5,7 +5,42 @@
 @using Dnn.Appointment.Debug.DnnAppointmentDebug.Services
 @using Dnn.Appointment.Debug.DnnAppointmentDebug.Models;
 
-<h1>Detail</h1>
+@{
+    var appointment = ViewBag.Appointment as AppointmentData;
+    ClientResourceManager.RegisterStyleSheet(Dnn.DnnPage, "~/DesktopModules/MVC/DnnAppointmentDebug/Content/Detail.css");
+}
+
+<div class="detailWrapper">
+    <div class="detailContainer">
+        <div class="detailHeader">
+            <h1>Foglalás adatai</h1>
+        </div>
+        <div class="detailContentContainer">
+            <p class="detailContent">
+                Dátum: @(appointment.Date.DateTime.ToString("yyyy.MM.dd"))&emsp;@(appointment.Date.StartTime.ToString("HH:mm")) - @(appointment.Date.EndTime.ToString("HH:mm"))
+            </p>
+            <p class="detailContent">
+                Vezetéknév: @(appointment.User.LastName)
+            </p>
+            <p class="detailContent">
+                Keresztnév: @(appointment.User.FirstName)
+            </p>
+            <p class="detailContent">
+                Email cím: @(appointment.User.Email)
+            </p>
+            <p class="detailContent">
+                Telefonszám: @(appointment.User.PhoneNumber)
+            </p>
+            <p class="detailContent">
+                Autó típusa: @(appointment.User.CarType)
+            </p>
+            <p class="detailContent">
+                Autó gyártási éve: @(appointment.User.CarYear)
+            </p>
+        </div>
+    </div>
+</div>
+
 <script type="text/javascript">
     /*globals jQuery, window, Sys */
     (function($, Sys) {

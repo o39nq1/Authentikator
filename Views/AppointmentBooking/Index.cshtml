@@ -38,7 +38,7 @@
                     @foreach (var item in appointments)
                     {
                         <div class="appointment-item">
-                            <div class="appointment-itemText">
+                            <div class="appointment-itemText" onclick="@Url.Action("Detail","AppointmentBooking",new {ctl = "Detail", @item.AppointmentID})">
                                 <p>@(item.User.Email)</p>
                                 <p>@(item.Date.DateTime.ToLongDateString())&emsp;@(item.Date.StartTime.ToString("HH")):@(item.Date.StartTime.ToString("mm")) - @(item.Date.EndTime.ToString("HH")):@(item.Date.EndTime.ToString("mm"))</p>
                             </div>
