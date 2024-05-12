@@ -1,4 +1,13 @@
-﻿.moduleContainer{
+﻿.anonTextContainer {
+    text-align: center;
+    background-color: #222222;
+}
+
+.anonTextContainer h1{
+    color: #f8c100;
+}
+
+.moduleContainer{
     background:#333333;
     color:white;
 }
@@ -24,6 +33,14 @@
 
 .appointment-item:hover{
     background-color: #222222;
+}
+
+.modal-text-zero{
+    text-align:center;
+}
+
+.modal-text-zero h3{
+    color:white;
 }
 
 .appointment-itemText{
@@ -74,16 +91,22 @@
 }
 
 .createContainer{
-    display:block;
+    display:flex;
+    flex-direction:column;
+    justify-content:space-evenly;
+    align-content:space-evenly;
     align-items:center;
-    justify-items:center;
+    height:inherit;
 }
 
 .createTextContainer {
+    margin-top:2rem;
     color: #f8c100;
+    text-align:center;
 }
 
 .createButton {
+    margin: 0.5rem 0 2rem 0;
     background-color: rgba(225, 22, 22, 0.812);
     width:6rem;
     height:4rem;
@@ -92,4 +115,97 @@
     border: none;
     box-shadow: 4px 4px black;
     color:black;
+}
+
+.modal-admin-open {
+    margin:2rem 0;
+    background-color: #f8c100;
+    width: 6rem;
+    height: 4rem;
+    text-align: center;
+    position: relative;
+    border: none;
+    box-shadow: 4px 4px black;
+    color: black;
+}
+
+.modal-admin {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0,0,0);
+    background-color: rgba(0,0,0,0.4);
+    -webkit-animation-name: fadeIn;
+    -webkit-animation-duration: 0.4s;
+    animation-name: fadeIn;
+    animation-duration: 0.4s
+}
+
+.modal-content {
+    margin: 1rem auto;
+    max-height:80%;
+    overflow-y:scroll;
+    position: relative;
+    bottom: 0;
+    background-color: #333333;
+    color: white;
+    width: 50%;
+    -webkit-animation-name: animatetop;
+    -webkit-animation-duration: 0.4s;
+    animation-name: animatetop;
+    animation-duration: 0.4s
+}
+
+.modal-close-container {
+    position: absolute;
+    right: 1rem;
+}
+
+.modal-close {
+    color: white;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.modal-close:hover,
+.modal-close:focus {
+    color: rgba(225, 22, 22, 0.812);
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.modal-header {
+    position: sticky;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 2px 16px;
+    background-color: #111111;
+    color: #f8c100;
+}
+
+.modal-header h2 {
+    color: #f8c100;
+}
+
+.modal-body {
+    padding: 2px 16px;
+}
+
+@keyframes animatetop {
+    from {
+        top: -300px;
+        opacity: 0
+    }
+
+    to {
+        top: 0;
+        opacity: 1
+    }
 }

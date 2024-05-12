@@ -4,7 +4,6 @@
 @using DotNetNuke.Web.Client.ClientResourceManagement;
 @using DotNetNuke.Framework.JavaScriptLibraries;
 @using Dnn.Appointment.Debug.DnnAppointmentDebug.Models;
-@using System.Net.Mail;
 
 @{
     ClientResourceManager.RegisterScript(Dnn.DnnPage, "~/DesktopModules/MVC/DnnAppointmentDebug/Scripts/Scripts.js");
@@ -14,6 +13,24 @@
 
 @using System.Collections.Generic
 @using DotNetNuke.Web.Mvc.Helpers
+
+<div id="Modal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2>Sikeres időpontfoglalás</h2>
+            <div class="modal-close-container">
+                <span class="modal-close">&times;</span>
+            </div>
+        </div>
+        <div class="modal-body">
+            <p>A foglalás oldalon meg fog jelenni időpontfoglalása</p>
+            <p>Arra kattintva tudja a foglalás adatait megtekinteni</p>
+        </div>
+        <div class="modal-footer">
+            <h3>Várjuk a foglalt időpontban tanácsadásra</h3>
+        </div>
+    </div>
+</div>
 
 <div class="createFormWrapper">
     <div class="createFormHeader">
@@ -26,57 +43,61 @@
                         <div class="dnnFormItem">
                             <div><label for="DateID">Válasszon ki egy napot</label></div>
                             <input type="date" id="DateTime" name="DateID" required value="@DateTime.Now.ToString("yyyy-MM-dd")"/>
-                            <p id="DateError"></p>
+                            <p id="DateError" class="error-message"></p>
                         </div>
-                        <div class="dnnFormItem">
-                            <div><label for="DateID">Időpont kezdete</label></div>
-                            <input id="StartTime" type="time" value="09:00" required />
-                            <p id="StartError"></p>
-                        </div>
-                        <div class="dnnFormItem">
-                            <div><label for="DateID">Időpont vége</label></div>
-                            <input id="EndTime" type="time" value="16:00" required />
-                            <p id="EndError"></p>
+                        <div class="timeContainer">
+                            <div class="dnnFormItem">
+                                <div><label for="DateID">Időpont kezdete</label></div>
+                                <input id="StartTime" type="time" value="09:00" required />
+                                <p id="StartError" class="error-message"></p>
+                            </div>
+                            <div class="dnnFormItem">
+                                <div><label for="DateID">Időpont vége</label></div>
+                                <input id="EndTime" type="time" value="16:00" required />
+                                <p id="EndError" class="error-message"></p>
+                            </div>
                         </div>
                     </fieldset>
                     <fieldset>
                         <div class="dnnFormItem">
                             <div><label for="UserID">Vezetéknév</label></div>
-                            <input type="text" placeholder="E.g. Tow" id="LastName" required />
-                            <p id="LastNameError"></p>
+                            <input type="text" placeholder="Nagy" id="LastName" required />
+                            <p id="LastNameError" class="error-message"></p>
                         </div>
                         <div class="dnnFormItem">
                             <div><label for="UserID">Keresztnév</label></div>
-                            <input type="text" placeholder="E.g. Mater" id="FirstName" required />
-                            <p id="FirstNameError"></p>
+                            <input type="text" placeholder="Matuka" id="FirstName" required />
+                            <p id="FirstNameError" class="error-message"></p>
                         </div>
                         <div class="dnnFormItem">
                             <div><label for="UserID">Email</label></div>
-                            <input type="email" placeholder="example@example.com" id="Email" required />
-                            <p id="EmailError"></p>
+                            <input type="email" placeholder="pelda@tunexpert.hu" id="Email" required />
+                            <p id="EmailError" class="error-message"></p>
                         </div>
                         <div class="dnnFormItem">
                             <div><label for="UserID">Telefonszám</label></div>
-                            <input type="text" placeholder="+12345678" id="PhoneNumber" required />
-                            <p id="PhoneError"></p>
+                            <input type="text" placeholder="+36201234567" id="PhoneNumber" required />
+                            <p id="PhoneError" class="error-message"></p>
                         </div>
-                        <div class="dnnFormItem">
-                            <div><label for="UserID">Autó típusa</label></div>
-                            @Html.DropDownList("CarType", carTypeOptions)
-                            <p id="CarTypeError"></p>
-                        </div>
-                        <div class="dnnFormItem">
-                            <div><label for="UserID">Autó gyártási éve</label></div>
-                            <input type="text" placeholder="E.g. 2024" id="Year" required />
-                            <p id="YearError"></p>
+                        <div class="carContainer">
+                            <div class="dnnFormItem">
+                                <div><label for="UserID">Autó típusa</label></div>
+                                @Html.DropDownList("CarType", carTypeOptions)
+                                <p id="CarTypeError" class="error-message"></p>
+                            </div>
+                            <div class="dnnFormItem">
+                                <div><label for="UserID">Autó gyártási éve</label></div>
+                                <input type="text" placeholder="2024" id="Year" required />
+                                <p id="YearError" class="error-message"></p>
+                            </div>
                         </div>
                     </fieldset>
                     <div class="buttonContainer">
-                        <div class="buttonCancelContainer">
-                            <button class="cancelButton" id="cancel">Mégsem</button>
-                        </div>
                         <div class="buttonCreateContainer">
                             <button class="createButton" id="appointmentCreateButton" type="button">Időpont foglalása</button>
+                        </div>
+                        <div class="buttonCancelContainer">
+                            <button class="cancelButton" id="cancel">Mégsem</button>
                         </div>
                     </div>
             </div>
@@ -90,6 +111,20 @@
     /*globals jQuery, window, Sys */
     (function ($, Sys) {
         $(function () {
+            var modal = document.getElementById("Modal");
+            var span = document.getElementsByClassName("modal-close")[0];
+            window.onclick = function (event) {
+                if (event.target == modal) {
+                    dnnModal.closePopUp(true)
+                    modal.style.display = "none";
+                }
+            }
+
+            $(span).click(function () {
+                dnnModal.closePopUp(true)
+                modal.style.display = "none";
+            });
+
             $('#cancel').click(function () { dnnModal.closePopUp(false); });
 
             $('#appointmentCreateButton').click(function () {
@@ -142,7 +177,7 @@
                 else { $('#LastNameError').text(''); }
 
                 if (!regexLastName.test(lastName)) {
-                    $('#LastNameError').text('Csak kis és nagy betűket tartalmazhat és kötőjelet');
+                    $('#LastNameError').text('Csak kis, nagy betűket és kötőjelet tartalmazhat');
                     $(window).scrollTop($('#LastNameError').position().top);
                     return;
                 }
@@ -168,7 +203,6 @@
                 var regexEmail = /^[^\s@@]+@@[^\s@@]+\.[^\s@@]+$/;
                 if (email == '') {
                     $('#EmailError').text('Nem lehet üres a mező');
-                    $(window).scrollTop($('#EmailError').position().top);
                     return;
                 }
                 else { $('#EmailError').text(''); }
@@ -201,7 +235,6 @@
                 else { $('#CarTypeError').text(''); }
 
                 var year = $("#Year").val();
-                console.log(year);
                 if (year == '') {
                     $('#YearError').text('Nem lehet üres a mező');
                     return;
@@ -239,8 +272,8 @@
                                     '@Dnn.ActiveModule.ModuleID',
                                     'AppointmentBookingAppointment'
                                 );
-                                proxyappointment.create(dateresponse.DateID, userresponse.UserID, (success, appointmentresponse) => {                                
-                                    dnnModal.closePopUp(true)
+                                proxyappointment.create(dateresponse.DateID, userresponse.UserID, (success, appointmentresponse) => {
+                                    modal.style.display = "block";
                                 })
                             }
                         }

@@ -11,53 +11,113 @@
 
     var appointments = ViewBag.Appointments as AppointmentData[]
 ?? new AppointmentData[] { };
-    }
+    var issuperuser = ViewBag.IsSuperuser;
+    var anon = ViewBag.Anon;
 
-<div class="moduleWrapper">
-    <div class="col-md-12 moduleHeader">
-        <h1 class="moduleHeaderText">Foglaljon időpontot még ma!</h1>
+}
+
+@if (anon)
+{
+    <div class="anonTextContainer">
+        <h1>Jelentkezz be, vagy hozz létre egy felhasználót, hogy elérhető legyen az időpontfoglalás</h1>
     </div>
-    <div class="col-md-12 moduleContainer">
-        <div class="col-md-9">
-            <div class="textLabel">
-                <p>Miért érdemes időpontot foglalnia?</p>
-            </div>
-            <div class="textContainer">
-                <p>Looking to elevate your Porsche driving experience? Book an appointment with our expert tuning advisors for persionalized guidance and recommendations tailored to your needs. Whether you're seeking performance enhancements or aesthetic upgrades, we're here to help you unlock the full potential of you Porsche. Schedule your appointment today and embark on the journey to unleash the power and style of your Porsche!</p>
-            </div>
-            <div class="appointmentTextContainer">
-                <p>Időpontjai</p>
-            </div>
-            @if (appointments.Length == 0)
-            {
-                <p>Ön még nem foglalt időpontot</p>
-            }
-            else
-            {
-                <div class="appointmentListContainer">
-                    @foreach (var item in appointments)
+}
+else
+{
+    if (issuperuser)
+    {
+
+
+        <div id="modalAdmin" class="modal-admin">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>Foglalások</h2>
+                    <div class="modal-close-container">
+                        <span class="modal-close">&times;</span>
+                    </div>
+                </div>
+                <div class="modal-body">
+                    @if (appointments.Length == 0)
                     {
-                        <div class="appointment-item">
-                            <div class="appointment-itemText" onclick="@Url.Action("Detail","AppointmentBooking",new {ctl = "Detail", @item.AppointmentID})">
-                                <p>@(item.User.Email)</p>
-                                <p>@(item.Date.DateTime.ToLongDateString())&emsp;@(item.Date.StartTime.ToString("HH")):@(item.Date.StartTime.ToString("mm")) - @(item.Date.EndTime.ToString("HH")):@(item.Date.EndTime.ToString("mm"))</p>
-                            </div>
-                            <button type="button" id="delete-@item.AppointmentID" class="appointment-secondary-button" onclick="$.deleteappointment(@item.AppointmentID)">Törlés</button>
+                        <div class="modal-text-zero">
+                            <h3>Nincs foglalás</h3>
                         </div>
                     }
-                </div>
+                    else
+                    {
+                        foreach (var item in appointments)
+                        {
+                            <div class="appointment-item">
+                                <div class="appointment-itemText" onclick="@Url.Action("Detail","AppointmentBooking",new {ctl = "Detail", @item.AppointmentID})">
+                                    <p>@(item.User.Email)</p>
+                                    <p>@(item.Date.DateTime.ToLongDateString())&emsp;@(item.Date.StartTime.ToString("HH")):@(item.Date.StartTime.ToString("mm")) - @(item.Date.EndTime.ToString("HH")):@(item.Date.EndTime.ToString("mm"))</p>
+                                </div>
+                                <button type="button" id="delete-@item.AppointmentID" class="appointment-secondary-button" onclick="$.deleteappointment(@item.AppointmentID)">Törlés</button>
+                            </div>
+                        }
                     }
                 </div>
-        <div class="createContainer col-md-3">
-            <div class="createTextContainer">
-                <p class="createText">Foglaljon időpontot</p>
             </div>
-            <div class="createButtonContainer">
-                <button type="button" class="createButton" onclick="@Url.Action("Create","AppointmentBooking",new {ctl = "Create", })">Időpontfoglalás</button>
+        </div>
+    }
+
+
+    <div class="moduleWrapper">
+        <div class="col-md-12 moduleHeader">
+            <h1 class="moduleHeaderText">Foglaljon időpontot még ma!</h1>
+        </div>
+        <div class="col-md-12 moduleContainer">
+            <div class="col-md-9">
+                <div class="textLabel">
+                    <h3 class="moduleHeaderText">Miért érdemes időpontot foglalnia?</h3>
+                </div>
+                <div class="textContainer">
+                    <p>Looking to elevate your Porsche driving experience? Book an appointment with our expert tuning advisors for persionalized guidance and recommendations tailored to your needs. Whether you're seeking performance enhancements or aesthetic upgrades, we're here to help you unlock the full potential of you Porsche. Schedule your appointment today and embark on the journey to unleash the power and style of your Porsche!</p>
+                </div>
+                <div class="appointmentTextContainer">
+                    <h3 class="moduleHeaderText">Időpontjai</h3>
+                </div>
+                @if (appointments.Length == 0)
+                {
+                    <p class="textContainer">Ön még nem foglalt időpontot</p>
+                }
+                else
+                {
+                    <div class="appointmentListContainer">
+                        @foreach (var item in appointments)
+                        {
+                            <div class="appointment-item">
+                                <div class="appointment-itemText" onclick="@Url.Action("Detail","AppointmentBooking",new {ctl = "Detail", @item.AppointmentID})">
+                                    <p>@(item.User.Email)</p>
+                                    <p>@(item.Date.DateTime.ToLongDateString())&emsp;@(item.Date.StartTime.ToString("HH")):@(item.Date.StartTime.ToString("mm")) - @(item.Date.EndTime.ToString("HH")):@(item.Date.EndTime.ToString("mm"))</p>
+                                </div>
+                                <button type="button" id="delete-@item.AppointmentID" class="appointment-secondary-button" onclick="$.deleteappointment(@item.AppointmentID)">Törlés</button>
+                            </div>
+                        }
+                    </div>
+                }
+            </div>
+            <div class="col-md-3">
+                <div class="createContainer">
+                    <div class="createTextContainer">
+                        <h3 class="moduleHeaderText">Foglaljon időpontot</h3>
+                    </div>
+                    <div class="createButtonContainer">
+                        <button type="button" class="createButton" onclick="@Url.Action("Create","AppointmentBooking",new {ctl = "Create", })">Időpontfoglalás</button>
+                        @{
+                            if (issuperuser)
+                            {
+                                <div class="modal-admin-open-container">
+                                    <button type="button" class="modal-admin-open" id="modal-admin-open">Összes foglalás</button>
+                                </div>
+                            }
+                        }
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-</div>
+}
 
 <script type="text/javascript">
     /*globals jQuery, window, Sys */
@@ -66,6 +126,24 @@
             $(document).ready(function () {
                 var sf = $.ServicesFramework('@Dnn.ActiveModule.ModuleID');
                 this.baseUrl = sf.getServiceRoot('AppointmentBookingAppointment');
+            })
+
+            var modal = document.getElementById('modalAdmin');
+            var span = document.getElementsByClassName("modal-close")[0];
+            window.onclick = function (event) {
+                if (event.target == modal) {
+                    dnnModal.closePopUp(true)
+                    modal.style.display = "none";
+                }
+            }
+
+            $(span).click(function () {
+                dnnModal.closePopUp(true)
+                modal.style.display = "none";
+            });
+
+            $('#modal-admin-open').click(function () {
+                modal.style.display = "block";
             })
 
             $.deleteappointment = function (cancelid) {

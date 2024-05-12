@@ -27,7 +27,7 @@ namespace Dnn.Appointment.Debug.DnnAppointmentDebug.Services
                 ?? throw new ArgumentNullException(nameof(userController)));
         }
 
-        private UserController UserController { get; }
+        private IUserController UserController { get; }
 
         public AppointmentData[] GetAppointmentData()
         {

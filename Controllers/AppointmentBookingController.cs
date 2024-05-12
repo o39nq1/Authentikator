@@ -31,21 +31,35 @@ namespace Dnn.Appointment.Debug.DnnAppointmentDebug.Controllers
             DotNetNuke.Framework.JavaScriptLibraries.JavaScript.RequestRegistration(CommonJs.jQuery);
             DotNetNuke.Framework.JavaScriptLibraries.JavaScript.RequestRegistration(CommonJs.DnnPlugins);
             ServicesFramework.Instance.RequestAjaxScriptSupport();
-            ServicesFramework.Instance.RequestAjaxAntiForgerySupport();
         }
 
-        [DnnAuthorize]
+        [AllowAnonymous]
         [AcceptVerbs(HttpVerbs.Post | HttpVerbs.Get)]
         public ActionResult Index()
         {
+            InitPopup();
             var currentUser = UserController.GetCurrentUserInfo();
+            if (currentUser.UserID > 0)
+            {
+                var anon = false;
+                ViewBag.Anon = anon;
+            }
+            else
+            {
+                var anon = true;
+                ViewBag.Anon = anon;
+            }
             if (currentUser.IsSuperUser)
             {
+                var IsSuperUser = true;
+                ViewBag.IsSuperUser = IsSuperUser;
                 var appointments = AppointManager.GetAppointmentData();
                 ViewBag.Appointments = appointments;
             }
             else
             {
+                var IsSuperUser = false;
+                ViewBag.IsSuperUser = IsSuperUser;
                 var appointments = AppointManager.FindAppointmentsByUser(User.UserID);
                 ViewBag.Appointments = appointments;
             }
@@ -56,6 +70,8 @@ namespace Dnn.Appointment.Debug.DnnAppointmentDebug.Controllers
         [AcceptVerbs(HttpVerbs.Post | HttpVerbs.Get)]
         public ActionResult Create()
         {
+            InitPopup();
+
             ViewBag.CarTypes = new SelectList(new[]
             {					
                 new SelectListItem() {Text = "Válasszon egy típust", Value = null},
@@ -78,10 +94,6 @@ namespace Dnn.Appointment.Debug.DnnAppointmentDebug.Controllers
                 new SelectListItem() {Text = "Panamera", Value = "Panamera"}
             }, nameof(SelectListItem.Value), nameof(SelectListItem.Text));
 
-            if(User.IsAdmin) 
-            {
-                InitPopup();
-            }
             return PartialView("Create");
         }
 
