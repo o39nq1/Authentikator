@@ -34,7 +34,7 @@
 
 <div class="createFormWrapper">
     <div class="createFormHeader">
-        <h1>Create an appointment</h1>
+        <h1>Foglaljon időpontot</h1>
     </div>
     <div class="createFormContainer">
         <div d="Item-@Dnn.ModuleContext.ModuleId">
@@ -52,7 +52,7 @@
                                 <p id="StartError" class="error-message"></p>
                             </div>
                             <div class="dnnFormItem">
-                                <div><label for="DateID">Időpont vége</label></div>
+                                <div><label class="endTimeLabel" for="DateID">Időpont vége</label></div>
                                 <input id="EndTime" type="time" value="16:00" required />
                                 <p id="EndError" class="error-message"></p>
                             </div>
@@ -61,22 +61,22 @@
                     <fieldset>
                         <div class="dnnFormItem">
                             <div><label for="UserID">Vezetéknév</label></div>
-                            <input type="text" placeholder="Nagy" id="LastName" required />
+                            <input type="text" placeholder="Nagy" value="" id="LastName" required />
                             <p id="LastNameError" class="error-message"></p>
                         </div>
                         <div class="dnnFormItem">
                             <div><label for="UserID">Keresztnév</label></div>
-                            <input type="text" placeholder="Matuka" id="FirstName" required />
+                            <input type="text" placeholder="Matuka" value="" id="FirstName" required />
                             <p id="FirstNameError" class="error-message"></p>
                         </div>
                         <div class="dnnFormItem">
                             <div><label for="UserID">Email</label></div>
-                            <input type="email" placeholder="pelda@tunexpert.hu" id="Email" required />
+                            <input type="text" placeholder="pelda@tunexpert.hu" value="" id="Email" required />
                             <p id="EmailError" class="error-message"></p>
                         </div>
                         <div class="dnnFormItem">
                             <div><label for="UserID">Telefonszám</label></div>
-                            <input type="text" placeholder="+36201234567" id="PhoneNumber" required />
+                            <input type="text" placeholder="+36201234567" value="" id="PhoneNumber" required />
                             <p id="PhoneError" class="error-message"></p>
                         </div>
                         <div class="carContainer">
@@ -87,7 +87,7 @@
                             </div>
                             <div class="dnnFormItem">
                                 <div><label for="UserID">Autó gyártási éve</label></div>
-                                <input type="text" placeholder="2024" id="Year" required />
+                                <input type="text" placeholder="2024" value="" id="Year" required />
                                 <p id="YearError" class="error-message"></p>
                             </div>
                         </div>
@@ -209,7 +209,6 @@
 
                 if (!regexEmail.test(email)) {
                     $('#EmailError').text('Email formátum: Példa@@Példa.hu');
-                    $(window).scrollTop($('#EmailError').position().top);
                     return;
                 }
                 else { $('#EmailError').text(''); }

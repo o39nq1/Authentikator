@@ -7,36 +7,46 @@
 
 @{
     var appointment = ViewBag.Appointment as AppointmentData;
+    ClientResourceManager.RegisterScript(Dnn.DnnPage, "~/DesktopModules/MVC/DnnAppointmentDebug/Scripts/Scripts.js");
     ClientResourceManager.RegisterStyleSheet(Dnn.DnnPage, "~/DesktopModules/MVC/DnnAppointmentDebug/Content/Detail.css");
+    var appointmentID = ViewBag.AppointmentID;
 }
 
 <div class="detailWrapper">
     <div class="detailContainer">
         <div class="detailHeader">
-            <h1>Foglalás adatai</h1>
+            <h2>Foglalás adatai</h2>
         </div>
         <div class="detailContentContainer">
             <p class="detailContent">
-                Dátum: @(appointment.Date.DateTime.ToString("yyyy.MM.dd"))&emsp;@(appointment.Date.StartTime.ToString("HH:mm")) - @(appointment.Date.EndTime.ToString("HH:mm"))
+                <b>Dátum:</b> @(appointment.Date.DateTime.ToString("yyyy.MM.dd"))&emsp;@(appointment.Date.StartTime.ToString("HH:mm")) - @(appointment.Date.EndTime.ToString("HH:mm"))
             </p>
             <p class="detailContent">
-                Vezetéknév: @(appointment.User.LastName)
+                <b>Vezetéknév:</b> @(appointment.User.LastName)
             </p>
             <p class="detailContent">
-                Keresztnév: @(appointment.User.FirstName)
+                <b>Keresztnév</b> @(appointment.User.FirstName)
             </p>
             <p class="detailContent">
-                Email cím: @(appointment.User.Email)
+                <b>Email cím:</b> @(appointment.User.Email)
             </p>
             <p class="detailContent">
-                Telefonszám: @(appointment.User.PhoneNumber)
+                <b>Telefonszám:</b> @(appointment.User.PhoneNumber)
             </p>
             <p class="detailContent">
-                Autó típusa: @(appointment.User.CarType)
+                <b>Autó típusa:</b> @(appointment.User.CarType)
             </p>
             <p class="detailContent">
-                Autó gyártási éve: @(appointment.User.CarYear)
+                <b>Autó gyártási éve:</b> @(appointment.User.CarYear)
             </p>
+            <div class="buttonContainer">
+                <div class="buttonDeleteContainer">
+                    <button class="deleteButton" id="appointmentDeleteButton" type="button" onclick="$.deleteappointment(@appointmentID)">Törlés</button>
+                </div>
+                <div class="buttonCancelContainer">
+                    <button class="cancelButton" id="cancel">Mégsem</button>
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -44,7 +54,17 @@
 <script type="text/javascript">
     /*globals jQuery, window, Sys */
     (function($, Sys) {
-        var sf = $.ServicesFramework('@Dnn.ActiveModule.ModuleID');
-        this.baseUrl = sf.getServiceRoot('AppointmentBookingAppointment');
+        $.deleteappointment = function (cancelid) {
+            var check = confirm("Biztosan törölni szeretné a foglalást?")
+            console.log(@appointmentID);
+            if (check) {
+                var deleteproxy = new AppointmentProxy(
+                '@Dnn.ActiveModule.ModuleID',
+                'AppointmentBookingAppointment'
+                );
+                deleteproxy.cancel(cancelid, () => { dnnModal.closePopUp(true); })
+            }
+        }
+        $('#cancel').click(function () { dnnModal.closePopUp(false); });
     }(jQuery, window.Sys));
 </script>

@@ -12,6 +12,10 @@
     color:white;
 }
 
+.moduleContainerLeft{
+    margin-top:0.5rem;
+}
+
 .appointmentListContainer {
     max-height: 12rem;
     width: 100%;
@@ -118,7 +122,7 @@
 }
 
 .modal-admin-open {
-    margin:2rem 0;
+    margin:0 0 2rem 0;
     background-color: #f8c100;
     width: 6rem;
     height: 4rem;
@@ -195,7 +199,6 @@
 }
 
 .modal-body {
-    padding: 2px 16px;
 }
 
 @keyframes animatetop {

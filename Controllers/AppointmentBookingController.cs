@@ -105,6 +105,7 @@ namespace Dnn.Appointment.Debug.DnnAppointmentDebug.Controllers
 
             var appointment = AppointManager.FindAppointmentByID(AppointmentID);
             ViewBag.Appointment = appointment;
+            ViewBag.AppointmentID = AppointmentID;
             return PartialView("Detail");
         }
     }

@@ -13,73 +13,117 @@
 }
 
 .buttonContainer{
+    width:100%;
     display:flex;
     justify-content:space-between;
 }
 
+.dnnFormItem input:invalid{
+    background-color:white;
+}
+
 .cancelButton {
-    margin:1rem;
-    width:5rem;
-    height:4rem;
+    margin: 1rem 0;
+    width: 5rem;
+    height: 4rem;
     border: none;
     box-shadow: black 4px 4px;
     background-color: #f8c100;
-    color:black;
+    color: black;
+    cursor: pointer;
 }
 
 .createButton {
-    margin: 1rem;
+    margin: 1rem 0;
     width: 5rem;
     height: 4rem;
     border: none;
     box-shadow: black 4px 4px;
     background-color: rgba(225, 22, 22, 0.812);
     color: black;
+    cursor:pointer;
 }
 
 .createFormContainer{
-    margin: 0 1rem;
+    margin: 0 auto;
+    width: 50%;
 }
 
-.carContainer{
-    width:100%;
-    display:flex;
-    flex-direction:row;
-    justify-content:space-evenly;
+.carContainer {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
 }
 
 .carContainer input{
-    width: 50%;
+    width: 90%;
 }
 
 .timeContainer {
+    position:relative;
     width: 100%;
     display: flex;
-    flex-direction: row;
-    justify-content: space-evenly;
+    justify-content: space-between;
 }
 
 .timeContainer input{
-    width: 50%;
+    width: 90%;
 }
 
 .dnnFormItem{
-    width:80%;
     margin:0 auto;
+    position:relative;
 }
 
-.dnnFormItem input[type="text"], .dnnFormItem select{
+.dnnFormItem select{
     margin-bottom: 0px;
+    max-width:none;
+    height:3rem;
+    width:90%;
 }
 
-input {
+.dnnFormItem input[type="text"] {
+    max-width: none;
+    box-sizing: border-box;
+    width: 100%;
+    border: none;
+    margin-bottom: 0px;
+    height: 3rem;
+    border-radius: 0;
+    -webkit-border-radius: 0;
+}
+
+.endTimeLabel{
+    margin-left:10%;
+}
+
+#EndError {
+    margin-left: 10%;
+}
+
+#EndTime{
+    float:right;
+}
+
+.dnnFormItem input[type="text"]:focus, .dnnFormItem select:focus{
+    margin-bottom: 0px;
+    border:none;
+    box-shadow:none;
+    outline: 2px solid #f8c100;
+}
+
+input, select {
+    max-width:none;
+    box-sizing: border-box;
     margin-bottom: 0px;
     outline: none;
     width: 100%;
-    height: 2rem;
+    height: 3rem;
 }
 
-input:focus{
+input:focus,select:focus{
+    border:none;
+    box-shadow:none;
     outline: 2px solid #f8c100;
 }
 
@@ -152,6 +196,7 @@ input:focus{
 }
 
 .modal-body {
+    margin-top:0.5rem;
     display:flex;
     flex-direction:column;
     justify-content:space-evenly;

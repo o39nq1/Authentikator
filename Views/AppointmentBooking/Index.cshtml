@@ -13,7 +13,7 @@
 ?? new AppointmentData[] { };
     var issuperuser = ViewBag.IsSuperuser;
     var anon = ViewBag.Anon;
-
+    System.Globalization.CultureInfo huHU = new System.Globalization.CultureInfo("hu-HU");
 }
 
 @if (anon)
@@ -50,7 +50,7 @@ else
                             <div class="appointment-item">
                                 <div class="appointment-itemText" onclick="@Url.Action("Detail","AppointmentBooking",new {ctl = "Detail", @item.AppointmentID})">
                                     <p>@(item.User.Email)</p>
-                                    <p>@(item.Date.DateTime.ToLongDateString())&emsp;@(item.Date.StartTime.ToString("HH")):@(item.Date.StartTime.ToString("mm")) - @(item.Date.EndTime.ToString("HH")):@(item.Date.EndTime.ToString("mm"))</p>
+                                    <p>@(item.Date.DateTime.ToString("D",huHU))&emsp;@(item.Date.StartTime.ToString("HH")):@(item.Date.StartTime.ToString("mm")) - @(item.Date.EndTime.ToString("HH")):@(item.Date.EndTime.ToString("mm"))</p>
                                 </div>
                                 <button type="button" id="delete-@item.AppointmentID" class="appointment-secondary-button" onclick="$.deleteappointment(@item.AppointmentID)">Törlés</button>
                             </div>
@@ -67,7 +67,7 @@ else
             <h1 class="moduleHeaderText">Foglaljon időpontot még ma!</h1>
         </div>
         <div class="col-md-12 moduleContainer">
-            <div class="col-md-9">
+            <div class="moduleContainerLeft col-md-9">
                 <div class="textLabel">
                     <h3 class="moduleHeaderText">Miért érdemes időpontot foglalnia?</h3>
                 </div>
@@ -89,7 +89,7 @@ else
                             <div class="appointment-item">
                                 <div class="appointment-itemText" onclick="@Url.Action("Detail","AppointmentBooking",new {ctl = "Detail", @item.AppointmentID})">
                                     <p>@(item.User.Email)</p>
-                                    <p>@(item.Date.DateTime.ToLongDateString())&emsp;@(item.Date.StartTime.ToString("HH")):@(item.Date.StartTime.ToString("mm")) - @(item.Date.EndTime.ToString("HH")):@(item.Date.EndTime.ToString("mm"))</p>
+                                    <p>@(item.Date.DateTime.ToString("D", huHU)) &emsp;@(item.Date.StartTime.ToString("HH")):@(item.Date.StartTime.ToString("mm")) - @(item.Date.EndTime.ToString("HH")):@(item.Date.EndTime.ToString("mm"))</p>
                                 </div>
                                 <button type="button" id="delete-@item.AppointmentID" class="appointment-secondary-button" onclick="$.deleteappointment(@item.AppointmentID)">Törlés</button>
                             </div>
